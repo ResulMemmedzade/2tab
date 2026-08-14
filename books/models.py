@@ -4,6 +4,12 @@ from accounts.models import CustomUser
 
 
 class Book(models.Model):
+
+    class Language(models.TextChoices):
+        AZERBAIJANI = "az", "Azərbaycan"
+        ENGLISH = "en", "İngilis"
+        RUSSIAN = "ru", "Rus"
+        TURKISH = "tr", "Türk"
     class Condition(models.TextChoices):
         NEW = 'new', 'Yeni'
         LIKE_NEW = 'like_new', 'Yeni kimi'
@@ -36,6 +42,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     condition = models.CharField(max_length=20, choices=Condition.choices, default=Condition.MEDIUM)
     genre = models.CharField(max_length=20, choices=Genre.choices)
+    language = models.CharField(max_length=5,choices=Language.choices,default=Language.AZERBAIJANI)
 
     owner = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='books')
     created_at = models.DateTimeField(auto_now_add=True)
