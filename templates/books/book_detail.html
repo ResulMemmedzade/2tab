@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitab Detalı - 2tab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root {
+        --background: #faf8f5;
+        --foreground: #2d2a26;
+        --card: #ffffff;
+        --primary: #c4704b;
+        --primary-hover: #b5613c;
+        --primary-foreground: #ffffff;
+        --secondary: #f3efe9;
+        --secondary-hover: #e8e2d9;
+        --secondary-foreground: #4a4540;
+        --muted: #f0ebe4;
+        --muted-foreground: #7a756d;
+        --border: #e5dfd6;
+        --radius: 16px;
+        --radius-sm: 12px;
+        --shadow-sm: 0 1px 3px rgba(45, 42, 38, 0.04), 0 1px 2px rgba(45, 42, 38, 0.06);
+        --shadow: 0 4px 20px rgba(45, 42, 38, 0.06), 0 2px 8px rgba(45, 42, 38, 0.04);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--background);
+        color: var(--foreground);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 24px auto 48px;
+        padding: 0 20px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.2s ease;
+    }
+
+    .back-link:hover {
+        color: var(--primary-hover);
+    }
+
+    .back-link svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .book-detail {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 32px;
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+    }
+
+    .book-cover {
+        width: 100%;
+        border-radius: var(--radius-sm);
+        object-fit: cover;
+        background: var(--muted);
+        aspect-ratio: 3 / 4;
+    }
+
+    .book-info h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--foreground);
+        margin-bottom: 8px;
+    }
+
+    .book-author {
+        font-size: 16px;
+        color: var(--muted-foreground);
+        margin-bottom: 20px;
+    }
+
+    .book-price-tag {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 24px;
+    }
+
+    .details-list {
+        margin-bottom: 24px;
+    }
+
+    .detail-item {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .detail-label {
+        width: 140px;
+        font-weight: 600;
+        color: var(--muted-foreground);
+    }
+
+    .detail-value {
+        color: var(--foreground);
+        font-weight: 500;
+    }
+
+    .btn-contact {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--primary);
+        color: #ffffff;
+        text-decoration: none;
+        padding: 14px 28px;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 16px;
+        transition: background 0.2s ease;
+    }
+
+    .btn-contact:hover {
+        background: var(--primary-hover);
+    }
+
+    @media (max-width: 768px) {
+        .book-detail {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="books.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kitablara qayıt
+        </a>
+
+        <div class="book-detail">
+            <div>
+                <img src="assets/default.png" alt="Kitab adı" class="book-cover">
+            </div>
+
+            <div class="book-info">
+                <h1>1984</h1>
+                <div class="book-author">George Orwell</div>
+                <div class="book-price-tag">8.50 AZN</div>
+
+                <div class="details-list">
+                    <div class="detail-item">
+                        <span class="detail-label">Vəziyyəti:</span>
+                        <span class="detail-value">Yeni kimi</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Satıcı:</span>
+                        <span class="detail-value">Əli Məmmədov</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Şəhər:</span>
+                        <span class="detail-value">Bakı</span>
+                    </div>
+                </div>
+
+                <a href="messages.html" class="btn-contact">
+                    Satıcı ilə əlaqə
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
