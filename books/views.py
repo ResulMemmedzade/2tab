@@ -22,3 +22,6 @@ def book_detail(request, slug):
 def book_list(request):
     books = Book.objects.prefetch_related('images')
     return render(request, 'index.html', {'books': books,})
+
+def contact_us(request):
+    return render(request, "books/contact_us.html")
