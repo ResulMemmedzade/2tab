@@ -8,247 +8,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --background: #faf8f5; 
-    --foreground: #2d2a26; 
-    --card: #ffffff;
-    --primary: #c4704b; 
-    --primary-hover: #b5613c; 
-    --primary-foreground: #ffffff;
-    --border: #e5dfd6; 
-    --radius: 16px; 
-    --radius-sm: 12px;  
-    --msg-mine: #c4704b; 
-    --msg-mine-text: #ffffff;
-    --msg-other: #ffffff; 
-    --msg-other-text: #2d2a26;
-}
-
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-}
-
-body { 
-    font-family: 'Inter', sans-serif; 
-    background: var(--background); 
-    color: var(--foreground); 
-    height: 100dvh; 
-    display: flex; 
-    flex-direction: column; 
-}
-
-.chat-header { 
-    background: var(--card); 
-    padding: 16px 20px; 
-    border-bottom: 1px solid var(--border); 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-}
-
-.chat-header h2 { 
-    font-size: 18px; 
-    font-weight: 600; 
-}
-
-.back-btn { 
-    text-decoration: none; 
-    color: var(--primary); 
-    font-weight: 600; 
-    font-size: 14px; 
-}
-
-.chat-container { 
-    flex: 1; 
-    overflow-y: auto; 
-    padding: 20px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-}
-
-.message-wrapper { 
-    display: flex; 
-    flex-direction: column; 
-    max-width: 75%; 
-}
-
-.message-wrapper.mine { 
-    align-self: flex-end; 
-    align-items: flex-end; 
-}
-
-.message-wrapper.other { 
-    align-self: flex-start; 
-    align-items: flex-start; 
-}
-
-.message-bubble { 
-    padding: 12px 16px; 
-    border-radius: var(--radius); 
-    position: relative; 
-    font-size: 15px; 
-    line-height: 1.4; 
-    word-wrap: break-word; 
-}
-
-.message-wrapper.mine .message-bubble { 
-    background: var(--msg-mine); 
-    color: var(--msg-mine-text); 
-    border-bottom-right-radius: 4px; 
-}
-
-.message-wrapper.other .message-bubble { 
-    background: var(--msg-other); 
-    color: var(--msg-other-text); 
-    border-bottom-left-radius: 4px; 
-    border: 1px solid var(--border); 
-}
-
-.message-bubble img { 
-    max-width: 100%; 
-    border-radius: 8px; 
-    margin-bottom: 8px; 
-}
-
-.message-info { 
-    font-size: 11px; 
-    margin-top: 4px; 
-    opacity: 0.8; 
-    display: flex; 
-    align-items: center; 
-    gap: 4px; 
-    justify-content: flex-end; 
-}
-
-.message-wrapper.other .message-info { 
-    color: #7a756d; 
-    justify-content: flex-start; 
-}
-
-.ticks { 
-    font-size: 12px; 
-    letter-spacing: -2px; 
-}
-
-.chat-input-area { 
-    background: var(--card); 
-    padding: 16px 20px; 
-    border-top: 1px solid var(--border); 
-    display: flex; 
-    gap: 10px; 
-    align-items: center; 
-}
-
-.chat-input-area input[type="text"] { 
-    flex: 1; 
-    padding: 14px 16px; 
-    border: 1px solid var(--border); 
-    border-radius: var(--radius-sm); 
-    font-size: 15px; 
-    outline: none; 
-}
-
-.chat-input-area input[type="text"]:focus { 
-    border-color: var(--primary); 
-}
-
-.file-btn, 
-.send-btn { 
-    background: var(--primary); 
-    color: #fff; 
-    border: none; 
-    padding: 14px; 
-    border-radius: var(--radius-sm); 
-    cursor: pointer; 
-    font-weight: 600; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: 0.2s; 
-}
-
-.file-btn { 
-    background: #f3efe9; 
-    color: var(--primary); 
-    border: 1px solid var(--border); 
-}
-
-.send-btn:hover { 
-    background: var(--primary-hover); 
-}
-
-.file-btn:hover { 
-    background: #e8e2d9; 
-}
-
-.message-actions { 
-    font-size: 12px; 
-    margin-top: 4px; 
-    display: flex; 
-    gap: 8px; 
-    opacity: 0; 
-    transition: 0.2s; 
-}
-
-.message-wrapper.mine:hover .message-actions { 
-    opacity: 1; 
-}
-
-.message-actions span { 
-    cursor: pointer; 
-    color: var(--primary); 
-}
-
-.deleted-text { 
-    font-style: italic; 
-    opacity: 0.7; 
-}
-
-
-/* MOBİL EKRAN ÜÇÜN XÜSUSİ DÜZƏLİŞLƏR */
-@media (max-width: 480px) {
-    .chat-header {
-        padding: 12px 16px;
-    }
-
-    .chat-header h2 {
-        font-size: 16px;
-    }
-
-    .chat-container {
-        padding: 12px;
-        gap: 8px;
-    }
-
-    .message-wrapper {
-        max-width: 85%;
-    }
-
-    .message-bubble {
-        padding: 10px 14px;
-        font-size: 14px;
-    }
-
-    .chat-input-area {
-        padding: 10px 12px;
-        gap: 8px;
-    }
-
-    .chat-input-area input[type="text"] {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .file-btn,
-    .send-btn {
-        padding: 12px;
-        font-size: 14px;
-    }
-}
+/* CSS HİSSƏN OLDUĞU KİMİ QALIR, HEÇ NƏ DƏYİŞMƏYİB */
+:root { --background: #faf8f5; --foreground: #2d2a26; --card: #ffffff; --primary: #c4704b; --primary-hover: #b5613c; --primary-foreground: #ffffff; --border: #e5dfd6; --radius: 16px; --radius-sm: 12px; --msg-mine: #c4704b; --msg-mine-text: #ffffff; --msg-other: #ffffff; --msg-other-text: #2d2a26;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--foreground); height: 100dvh; display: flex; flex-direction: column; }
+.chat-header { background: var(--card); padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.chat-header h2 { font-size: 18px; font-weight: 600; }
+.back-btn { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 14px; }
+.chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.message-wrapper { display: flex; flex-direction: column; max-width: 75%; }
+.message-wrapper.mine { align-self: flex-end; align-items: flex-end; }
+.message-wrapper.other { align-self: flex-start; align-items: flex-start; }
+.message-bubble { padding: 12px 16px; border-radius: var(--radius); position: relative; font-size: 15px; line-height: 1.4; word-wrap: break-word; }
+.message-wrapper.mine .message-bubble { background: var(--msg-mine); color: var(--msg-mine-text); border-bottom-right-radius: 4px; }
+.message-wrapper.other .message-bubble { background: var(--msg-other); color: var(--msg-other-text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
+.message-bubble img { max-width: 100%; border-radius: 8px; margin-bottom: 8px; }
+.message-info { font-size: 11px; margin-top: 4px; opacity: 0.8; display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+.message-wrapper.other .message-info { color: #7a756d; justify-content: flex-start; }
+.ticks { font-size: 12px; letter-spacing: -2px; }
+/* Oxunmuş mesajlar üçün mavi rəngli tik */
+.ticks.read { color: #8ec3f8; } 
+.chat-input-area { background: var(--card); padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: center; }
+.chat-input-area input[type="text"] { flex: 1; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; outline: none; }
+.chat-input-area input[type="text"]:focus { border-color: var(--primary); }
+.file-btn, .send-btn { background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.file-btn { background: #f3efe9; color: var(--primary); border: 1px solid var(--border); }
+.send-btn:hover { background: var(--primary-hover); }
+.file-btn:hover { background: #e8e2d9; }
+.message-actions { font-size: 12px; margin-top: 4px; display: flex; gap: 8px; opacity: 0; transition: 0.2s; }
+.message-wrapper.mine:hover .message-actions { opacity: 1; }
+.message-actions span { cursor: pointer; color: var(--primary); }
+.deleted-text { font-style: italic; opacity: 0.7; }
+@media (max-width: 480px) { .chat-header { padding: 12px 16px; } .chat-header h2 { font-size: 16px; } .chat-container { padding: 12px; gap: 8px; } .message-wrapper { max-width: 85%; } .message-bubble { padding: 10px 14px; font-size: 14px; } .chat-input-area { padding: 10px 12px; gap: 8px; } .chat-input-area input[type="text"] { padding: 12px; font-size: 14px; } .file-btn, .send-btn { padding: 12px; font-size: 14px; } }
 </style>
 </head>
 <body>
@@ -260,7 +51,6 @@ body {
 </div>
 
 <div class="chat-container" id="chatContainer">
-    <!-- Paginasiya üçün Load More düyməsi (Gizlidir, JS idarə edir) -->
     <div id="loadMore" style="text-align: center; font-size: 12px; color: gray; cursor: pointer; display: none;">Köhnə mesajları yüklə</div>
 
     {% for msg in messages %}
@@ -279,7 +69,7 @@ body {
                     {{ msg.created_at|time:"H:i" }}
                     {% if msg.is_edited and not msg.is_deleted %}(edit){% endif %}
                     {% if msg.sender == request.user %}
-                        <span class="ticks" id="tick-{{ msg.id }}">{% if msg.read_at %}✓✓{% else %}✓{% endif %}</span>
+                        <span class="ticks {% if msg.read_at %}read{% endif %}" id="tick-{{ msg.id }}">{% if msg.read_at %}✓✓{% else %}✓{% endif %}</span>
                     {% endif %}
                 </div>
             </div>
@@ -307,138 +97,107 @@ body {
     const currentUserId = {{ request.user.id }};
     const conversationId = {{ conversation.id }};
     
-    // WebSocket Bağlantısı
-const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
+    // Səhifə açılan kimi ən aşağıya get
+    scrollToBottom();
 
-// IP və port məsələsində problem olmasın deyə host-u təmiz alırıq
-const wsUrl = `${wsScheme}://${window.location.host}/ws/chat/${conversationId}/`;
+    const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
+    const wsUrl = `${wsScheme}://${window.location.host}/ws/chat/${conversationId}/`;
+    const chatSocket = new WebSocket(wsUrl);
 
-console.log("WebSocket bağlantısı cəhdi:", wsUrl);
+    chatSocket.onopen = function(e) {
+        console.log("🟢 WebSocket bağlantısı uğurla quruldu!");
+        // Otağa girən kimi oxundu siqnalını göndəririk
+        chatSocket.send(JSON.stringify({ 'action': 'mark_read' }));
+    };
 
-const chatSocket = new WebSocket(wsUrl);
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const action = data.action;
 
-chatSocket.onopen = function(e) {
-    console.log("🟢 WebSocket bağlantısı uğurla quruldu!");
-};
+        if (action === 'new_message') {
+            const isMine = data.sender_id === currentUserId;
 
-chatSocket.onmessage = function(e) {
-    console.log("📩 Yeni məlumat gəldi:", e.data);
-
-    const data = JSON.parse(e.data);
-    const action = data.action;
-
-    if (action === 'new_message') {
-        const isMine = data.sender_id === currentUserId;
-
-        let html = `
-            <div class="message-wrapper ${isMine ? 'mine' : 'other'}" id="msg-${data.message_id}">
-                <div class="message-bubble" id="bubble-${data.message_id}">
-                    ${data.image_url ? `<img src="${data.image_url}" alt="Şəkil">` : ''}
-                    <span id="text-${data.message_id}">${data.message}</span>
-
-                    <div class="message-info">
-                        ${data.created_at}
-
-                        ${isMine
-                            ? `<span class="ticks" id="tick-${data.message_id}">✓</span>`
-                            : ''
-                        }
+            let html = `
+                <div class="message-wrapper ${isMine ? 'mine' : 'other'}" id="msg-${data.message_id}">
+                    <div class="message-bubble" id="bubble-${data.message_id}">
+                        ${data.image_url ? `<img src="${data.image_url}" alt="Şəkil">` : ''}
+                        <span id="text-${data.message_id}">${data.message}</span>
+                        <div class="message-info">
+                            ${data.created_at}
+                            ${isMine ? `<span class="ticks" id="tick-${data.message_id}">✓</span>` : ''}
+                        </div>
                     </div>
+                    ${isMine ? `
+                        <div class="message-actions" id="actions-${data.message_id}">
+                            <span onclick="editMessage(${data.message_id}, '${data.message}')">Redaktə</span>
+                            <span onclick="deleteMessage(${data.message_id})">Sil</span>
+                        </div>
+                    ` : ''}
                 </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', html);
+            scrollToBottom();
 
-                ${isMine ? `
-                    <div class="message-actions" id="actions-${data.message_id}">
-                        <span onclick="editMessage(${data.message_id}, '${data.message}')">
-                            Redaktə
-                        </span>
-                        <span onclick="deleteMessage(${data.message_id})">
-                            Sil
-                        </span>
-                    </div>
-                ` : ''}
-            </div>
-        `;
-
-        chatContainer.insertAdjacentHTML('beforeend', html);
-
-        scrollToBottom();
-    }
-
-    else if (action === 'edit_message') {
-        const textEl = document.getElementById(
-            'text-' + data.message_id
-        );
-
-        if (textEl) {
-            textEl.innerText = data.new_text;
+            // Qarşı tərəf mənə mesaj yazdısa və mən chatdayamsa, anında oxundu göndər!
+            if (!isMine) {
+                chatSocket.send(JSON.stringify({ 'action': 'mark_read' }));
+            }
         }
-    }
-
-    else if (action === 'delete_message') {
-        const bubbleEl = document.getElementById(
-            'bubble-' + data.message_id
-        );
-
-        if (bubbleEl) {
-            bubbleEl.innerHTML =
-                `<span class="deleted-text">🚫 Bu mesaj silinib</span>`;
+        
+        else if (action === 'messages_read') {
+            // Əgər oxuyan qarşı tərəfdirsə, mənim göndərdiyim mesajları iki mavi tik et (✓✓)
+            if (data.user_id !== currentUserId) {
+                document.querySelectorAll('.ticks').forEach(el => {
+                    if(el.innerText === '✓') {
+                        el.innerText = '✓✓';
+                        el.classList.add('read');
+                    }
+                });
+            }
         }
 
-        const actionEl = document.getElementById(
-            'actions-' + data.message_id
-        );
-
-        if (actionEl) {
-            actionEl.remove();
+        else if (action === 'edit_message') {
+            const textEl = document.getElementById('text-' + data.message_id);
+            if (textEl) textEl.innerText = data.new_text;
         }
-    }
-};
 
-chatSocket.onerror = function(e) {
-    console.error("🔴 WebSocket Xətası:", e);
-};
+        else if (action === 'delete_message') {
+            const bubbleEl = document.getElementById('bubble-' + data.message_id);
+            if (bubbleEl) bubbleEl.innerHTML = `<span class="deleted-text">🚫 Bu mesaj silinib</span>`;
+            const actionEl = document.getElementById('actions-' + data.message_id);
+            if (actionEl) actionEl.remove();
+        }
+    };
 
-chatSocket.onclose = function(e) {
-    console.warn(
-        "⚠️ WebSocket bağlantısı kəsildi. Xəta kodu:",
-        e.code
-    );
-};
+    chatSocket.onerror = function(e) { console.error("🔴 WebSocket Xətası:", e); };
+    chatSocket.onclose = function(e) { console.warn("⚠️ WebSocket bağlantısı kəsildi."); };
 
-
-// Mesajlaşma qutusunu ən aşağı sürüşdürmək üçün funksiya
     function scrollToBottom() {
-        // 'chat-container' class-nı öz HTML-inə uyğunlaşdır (əgər fərqlidirsə)
-        const container = document.querySelector('.chat-container');
-        if (container) {
-            container.scrollTop = container.scrollHeight;
+        if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         }
     }
 
-
-
-// Mesaj göndərmək
     function sendMessage() {
         const text = messageInput.value.trim();
         if (text) {
-            // Əgər socket açıqdırsa göndər
             if (chatSocket.readyState === WebSocket.OPEN) {
-                chatSocket.send(JSON.stringify({ 'message': text }));
+                chatSocket.send(JSON.stringify({ 
+                    'action': 'send_message', 
+                    'message': text 
+                }));
                 messageInput.value = '';
-            } else {
-                alert("Bağlantı qurulur və ya qırılıb. Zəhmət olmasa səhifəni yeniləyin.");
             }
         }
     }
 
     messageInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Səhifənin refresh olmasının qarşısını alır
+            e.preventDefault();
             sendMessage();
         }
     });
 
-    // Şəkil Yükləmək
     document.getElementById('imageInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -455,7 +214,6 @@ chatSocket.onclose = function(e) {
         .then(data => { if(data.success) e.target.value = ''; });
     });
 
-    // Mesaj Silmək
     function deleteMessage(msgId) {
         if(confirm('Mesajı silmək istədiyinizə əminsiniz?')) {
             fetch(`/panel/mesajlar/message/${msgId}/delete/`, {
@@ -465,7 +223,6 @@ chatSocket.onclose = function(e) {
         }
     }
 
-    // Mesaj Redaktə
     function editMessage(msgId, oldText) {
         const newText = prompt("Mesajı redaktə edin:", oldText);
         if (newText && newText !== oldText) {

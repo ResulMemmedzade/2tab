@@ -9,6 +9,7 @@ self.addEventListener('push', function(event) {
             // Static qovluğuna birbaşa yol:
             icon: data.icon || '/static/icons/logo.png', 
             badge: '/static/icons/logo.png',
+            tag: data.conversation_id,
             vibrate: [200, 100, 200],
             data: {
                 url: data.url

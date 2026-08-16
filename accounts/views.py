@@ -1,9 +1,51 @@
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, authenticate, logout
 from django.core.cache import cache
+
+from io import BytesIO
+from PIL import Image, ImageOps
+
 from books.models import *
 from .forms import *
+
+
+def optimize_image(image):
+    img = Image.open(image)
+
+    img = ImageOps.exif_transpose(img)
+
+
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+
+
+    img.thumbnail(
+        (1600, 1600),
+        Image.Resampling.LANCZOS
+    )
+
+    output = BytesIO()
+
+    img.save(
+        output,
+        format="JPEG",
+        quality=85,
+        optimize=True
+    )
+
+    output.seek(0)
+
+    return InMemoryUploadedFile(
+        output,
+        "ImageField",
+        f"{image.name.rsplit('.', 1)[0]}.jpg",
+        "image/jpeg",
+        output.getbuffer().nbytes,
+        None
+    )
+
 
 
 @login_required
@@ -29,6 +71,14 @@ def book_create(request):
             book.save()
 
             formset.instance = book
+
+            # Şəkilləri optimallaşdır
+            for form in formset:
+                if form.cleaned_data.get('image'):
+                    form.instance.image = optimize_image(
+                        form.cleaned_data['image']
+                    )
+
             formset.save()
 
             return redirect('book_detail', slug=book.slug)
@@ -60,6 +110,14 @@ def book_update(request, slug):
 
         if form.is_valid() and formset.is_valid():
             form.save()
+
+            # Yeni yüklənən şəkilləri optimallaşdır
+            for form in formset:
+                if form.cleaned_data.get('image'):
+                    form.instance.image = optimize_image(
+                        form.cleaned_data['image']
+                    )
+
             formset.save()
 
             return redirect('book_detail', slug=book.slug)

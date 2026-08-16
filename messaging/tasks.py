@@ -40,7 +40,8 @@ def send_delayed_notification(conversation_id, receiver_id):
         "title": title,
         "body": body,
         "icon": "/static/images/logo.png", # Öz loqonun yolu
-        "url": f"/panel/mesajlar/{conversation_id}/"
+        "url": f"/panel/mesajlar/{conversation_id}/",
+        "conversation_id": str(conversation_id)
     }
 
     # İstifadəçinin bütün aktiv browser abonəliklərini (cihazlarını) tapırıq

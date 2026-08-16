@@ -194,3 +194,9 @@ WEBPUSH_SETTINGS = {
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
+
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptPasswordHasher',  # Köhnə şifrələr üçün
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',  # Yeni şifrələr üçün (Django default)
+]

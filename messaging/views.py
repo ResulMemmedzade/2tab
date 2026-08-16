@@ -1,15 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.core.cache import cache
 from django.conf import settings
 from django.db.models import Count, Q
-
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+
+from PIL import Image,ImageOps
+from io import BytesIO
+import sys
 import json
 
 from .models import Conversation, Message
@@ -104,12 +108,53 @@ def upload_image(request, conversation_id):
             participants=request.user
         )
 
+        # Şəkli alırıq
         image = request.FILES["image"]
 
+        # Pillow ilə açırıq
+        img = Image.open(image)
+
+        # Telefon şəkillərində EXIF orientation problemini düzəldir
+        img = ImageOps.exif_transpose(img)
+
+        # JPEG üçün RGB formatına çeviririk
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+
+        # Maksimum ölçü: 1200x1200
+        # Aspect ratio qorunur və şəkil böyüdülmür
+        img.thumbnail(
+            (1200, 1200),
+            Image.Resampling.LANCZOS
+        )
+
+        # Yaddaşda yeni JPEG yaradırıq
+        output = BytesIO()
+
+        img.save(
+            output,
+            format="JPEG",
+            quality=85,
+            optimize=True
+        )
+
+        output.seek(0)
+
+        # Optimallaşdırılmış şəkli Django upload obyektinə çeviririk
+        optimized_image = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{image.name.rsplit('.', 1)[0]}.jpg",
+            "image/jpeg",
+            output.getbuffer().nbytes,
+            None
+        )
+
+        # Message yaradılır
         message = Message.objects.create(
             conversation=conversation,
             sender=request.user,
-            image=image
+            image=optimized_image
         )
 
         # Qarşı tərəfi tap

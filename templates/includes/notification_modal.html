@@ -1,0 +1,72 @@
+<style>
+#notify-modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 9999;
+    display: none; align-items: center; justify-content: center;
+    padding: 20px; font-family: 'Inter', sans-serif;
+}
+#notify-modal {
+    background: #fff; border-radius: 16px; padding: 24px; max-width: 400px;
+    text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+#notify-modal h3 { margin: 0 0 10px; font-size: 20px; color: #2d2a26; }
+#notify-modal p { margin: 0 0 20px; font-size: 14px; color: #7a756d; line-height: 1.5; }
+.notify-btns { display: flex; gap: 10px; justify-content: center; }
+.btn-allow { background: #c4704b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.btn-deny { background: #f3efe9; color: #7a756d; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+</style>
+
+<div id="notify-modal-overlay">
+    <div id="notify-modal">
+        <h3>🔔 Yeni Mesaj Bildirişləri</h3>
+        <p>Sizə yeni mesaj gəldikdə anında xəbərdar olmaq üçün bildirişlərə icazə verin.</p>
+        <div class="notify-btns">
+            <button class="btn-deny" onclick="closeNotifyModal()">Bəlkə sonra</button>
+            <button class="btn-allow" id="modal-allow-btn">İcazə Ver</button>
+        </div>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', () => {
+    // Əgər icazə hələ istənməyibsə (default), modalı göstər
+    if (window.Notification && Notification.permission === "default") {
+        setTimeout(() => {
+            document.getElementById('notify-modal-overlay').style.display = 'flex';
+        }, 2000); // Səhifə açılandan 2 saniyə sonra çıxsın
+    }
+});
+
+function closeNotifyModal() {
+    document.getElementById('notify-modal-overlay').style.display = 'none';
+}
+
+document.getElementById('modal-allow-btn').addEventListener('click', async () => {
+    closeNotifyModal();
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+            const register = await navigator.serviceWorker.register('/sw.js');
+            const permission = await window.Notification.requestPermission();
+            
+            if (permission === 'granted') {
+                const response = await fetch('/panel/mesajlar/push/vapid-public-key/');
+                const data = await response.json();
+                
+                const subscription = await register.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: data.public_key
+                });
+
+                await fetch('/panel/mesajlar/push/save-subscription/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify(subscription)
+                });
+                alert("Bildirişlər aktiv edildi!");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+});
+</script>
