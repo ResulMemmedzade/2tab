@@ -64,10 +64,6 @@
         --shadow:
             0 4px 20px rgba(45, 42, 38, 0.06),
             0 2px 8px rgba(45, 42, 38, 0.04);
-
-        --shadow-lg:
-            0 12px 40px rgba(45, 42, 38, 0.08),
-            0 4px 16px rgba(45, 42, 38, 0.04);
     }
 
 
@@ -86,7 +82,6 @@
             sans-serif;
 
         background: var(--background);
-
         color: var(--foreground);
 
         line-height: 1.5;
@@ -306,6 +301,8 @@
         background: var(--secondary);
 
         color: var(--secondary-foreground);
+
+        border: 1px solid var(--border);
     }
 
 
@@ -411,7 +408,6 @@
 
                 </svg>
 
-
                 Hesabım
 
             </div>
@@ -420,7 +416,16 @@
             <h1>
 
                 Xoş gəldin,
-                {{ request.user.username }}!
+
+
+
+{% if request.user.name %}
+    {{ request.user.name }}
+{% else %}
+    İstifadəçi
+{% endif %}
+
+                !
 
             </h1>
 
@@ -456,7 +461,6 @@
 
                     </svg>
 
-
                     {{ request.user.email }}
 
                 </div>
@@ -465,7 +469,6 @@
 
 
         </div>
-
 
 
         <!-- ACCOUNT OPTIONS -->
@@ -488,14 +491,13 @@
                 </p>
 
                 <a
-                    href="#"
+                    href="{% url 'my_books' %}"
                     class="btn btn-primary"
                 >
                     Aç
                 </a>
 
             </div>
-
 
 
             <!-- FAVORITES -->
@@ -513,7 +515,7 @@
                 </p>
 
                 <a
-                    href="#"
+                    href="{% url 'favourite_books' %}"
                     class="btn btn-secondary"
                 >
                     Aç
@@ -522,8 +524,7 @@
             </div>
 
 
-
-            <!-- BOOKS -->
+            <!-- ALL BOOKS -->
 
             <div class="card">
 
@@ -538,14 +539,13 @@
                 </p>
 
                 <a
-                    href="#"
+                    href="{% url 'book_list' %}"
                     class="btn btn-secondary"
                 >
                     Bax
                 </a>
 
             </div>
-
 
 
             <!-- LOGOUT -->
@@ -564,7 +564,7 @@
 
                 <form
                     method="POST"
-                    action="#"
+                    action="{% url 'logout' %}"
                     class="logout-form"
                 >
 

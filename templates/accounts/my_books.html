@@ -1,0 +1,700 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mənim kitablarım - 2tab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background:#faf8f5;
+            --foreground:#2d2a26;
+            --card:#fff;
+            --primary:#c4704b;
+            --primary-hover:#b5613c;
+            --primary-foreground:#fff;
+            --secondary:#f3efe9;
+            --secondary-hover:#e8e2d9;
+            --secondary-foreground:#4a4540;
+            --muted:#f0ebe4;
+            --muted-foreground:#7a756d;
+            --border:#e5dfd6;
+            --destructive:#dc2626;
+            --radius:16px;
+            --radius-sm:12px;
+            --shadow-sm:0 1px 3px rgba(45,42,38,.04),0 1px 2px rgba(45,42,38,.06);
+            --shadow:0 4px 20px rgba(45,42,38,.06),0 2px 8px rgba(45,42,38,.04);
+        }
+
+        * {
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+        }
+
+        body {
+            font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+            background:var(--background);
+            color:var(--foreground);
+            line-height:1.5;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        .container {
+            max-width:1200px;
+            margin:24px auto 48px;
+            padding:0 20px;
+        }
+
+        .page-header {
+            margin-bottom:24px;
+        }
+
+        .page-header h1 {
+            margin:0 0 8px;
+            font-size:32px;
+            font-weight:800;
+            letter-spacing:-.5px;
+        }
+
+        .page-header p {
+            color:var(--muted-foreground);
+            font-size:16px;
+            line-height:1.6;
+        }
+
+        .card {
+            background:var(--card);
+            border-radius:var(--radius);
+            padding:24px;
+            box-shadow:var(--shadow);
+            border:1px solid var(--border);
+        }
+
+        .toolbar {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:16px;
+            flex-wrap:wrap;
+            margin-bottom:20px;
+        }
+
+        .toolbar-title {
+            font-size:20px;
+            font-weight:700;
+            letter-spacing:-.3px;
+        }
+
+        .alert-success {
+            background:rgba(107,143,113,.12);
+            color:#3d6b44;
+            border:1px solid rgba(107,143,113,.3);
+            padding:14px 16px;
+            border-radius:var(--radius-sm);
+            margin-bottom:16px;
+            font-size:14px;
+            font-weight:600;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+
+        .alert-success svg {
+            width:20px;
+            height:20px;
+            flex-shrink:0;
+        }
+
+        .btn {
+            border:none;
+            border-radius:var(--radius-sm);
+            padding:12px 18px;
+            font-size:14px;
+            font-weight:600;
+            cursor:pointer;
+            text-decoration:none;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            white-space:nowrap;
+            transition:all .2s ease;
+            font-family:inherit;
+        }
+
+        .btn svg {
+            width:18px;
+            height:18px;
+        }
+
+        .btn-primary {
+            background:var(--primary);
+            color:var(--primary-foreground);
+            box-shadow:var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background:var(--primary-hover);
+            transform:translateY(-1px);
+            box-shadow:var(--shadow);
+        }
+
+        .btn-secondary {
+            background:var(--secondary);
+            color:var(--secondary-foreground);
+            border:1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background:var(--secondary-hover);
+        }
+
+        .btn-danger {
+            background:transparent;
+            color:var(--destructive);
+            padding:12px 14px;
+        }
+
+        .btn-danger:hover {
+            background:rgba(220,38,38,.08);
+        }
+
+        .book-list {
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+        }
+
+        .book-item {
+            display:grid;
+            grid-template-columns:140px 1fr;
+            gap:20px;
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:16px;
+            background:var(--secondary);
+            transition:all .2s ease;
+        }
+
+        .book-item:hover {
+            box-shadow:var(--shadow-sm);
+            border-color:transparent;
+        }
+
+        .book-image {
+            width:140px;
+            height:180px;
+            object-fit:cover;
+            border-radius:var(--radius-sm);
+            border:1px solid var(--border);
+            display:block;
+            background:var(--card);
+        }
+
+        .no-image {
+            width:140px;
+            height:180px;
+            border-radius:var(--radius-sm);
+            border:2px dashed var(--border);
+            background:var(--card);
+            color:var(--muted-foreground);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:13px;
+            text-align:center;
+        }
+
+        .book-content {
+            display:flex;
+            flex-direction:column;
+            min-width:0;
+        }
+
+        .book-item h3 {
+            margin:0 0 10px;
+            font-size:18px;
+            font-weight:700;
+            line-height:1.4;
+            letter-spacing:-.3px;
+        }
+
+        .book-badges {
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+            margin-bottom:12px;
+        }
+
+        .badge {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding:5px 10px;
+            border-radius:999px;
+            font-size:11px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:.3px;
+        }
+
+        .condition-new {
+            background:rgba(34,197,94,.15);
+            color:#15803d;
+        }
+
+        .condition-like_new {
+            background:rgba(59,130,246,.15);
+            color:#1d4ed8;
+        }
+
+        .condition-medium {
+            background:rgba(14,165,233,.15);
+            color:#0369a1;
+        }
+
+        .condition-like_old {
+            background:rgba(249,115,22,.15);
+            color:#c2410c;
+        }
+
+        .condition-old {
+            background:rgba(239,68,68,.15);
+            color:#b91c1c;
+        }
+
+        .book-meta {
+            font-size:14px;
+            color:var(--muted-foreground);
+            margin-bottom:12px;
+            line-height:1.8;
+        }
+
+        .book-meta strong {
+            color:var(--foreground);
+            font-weight:600;
+        }
+
+        .book-price {
+            font-size:20px;
+            font-weight:700;
+            color:var(--primary);
+            margin-bottom:12px;
+        }
+
+        .book-desc {
+            color:var(--muted-foreground);
+            line-height:1.7;
+            font-size:14px;
+            display:-webkit-box;
+            -webkit-line-clamp:2;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+        }
+
+        .actions {
+            margin-top:auto;
+            padding-top:14px;
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+
+        .delete-form {
+            margin:0;
+            padding:0;
+            display:inline;
+        }
+
+        .empty {
+            color:var(--muted-foreground);
+            padding:48px 24px;
+            border:2px dashed var(--border);
+            border-radius:var(--radius);
+            background:var(--secondary);
+            text-align:center;
+            line-height:1.7;
+        }
+
+        .empty-icon {
+            width:56px;
+            height:56px;
+            margin:0 auto 16px;
+            color:var(--muted-foreground);
+            opacity:.5;
+        }
+
+        .empty strong {
+            display:block;
+            color:var(--foreground);
+            font-size:18px;
+            font-weight:700;
+            margin-bottom:8px;
+        }
+
+        .empty p {
+            margin:0 0 20px;
+            font-size:15px;
+        }
+
+        @media(max-width:768px) {
+            .container {
+                padding:0 16px;
+                margin:20px auto 40px;
+            }
+
+            .page-header h1 {
+                font-size:26px;
+            }
+
+            .card {
+                padding:18px;
+            }
+
+            .toolbar {
+                flex-direction:column;
+                align-items:stretch;
+            }
+
+            .book-item {
+                grid-template-columns:1fr;
+                gap:16px;
+            }
+
+            .book-image,
+            .no-image {
+                width:100%;
+                max-width:200px;
+                height:auto;
+                aspect-ratio:14/18;
+            }
+
+            .book-item h3 {
+                font-size:17px;
+            }
+
+            .actions {
+                flex-direction:column;
+                align-items:stretch;
+            }
+
+            .actions .btn {
+                width:100%;
+            }
+        }
+
+        @media(max-width:480px) {
+            .page-header h1 {
+                font-size:24px;
+            }
+
+            .card {
+                padding:16px;
+            }
+
+            .book-item {
+                padding:14px;
+            }
+
+            .toolbar-title {
+                font-size:18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'includes/topbar.html' %}
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>Mənim kitablarım</h1>
+        <p>Paylaşdığın elanları burada idarə et.</p>
+    </div>
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <div class="toolbar-title">
+                Əlavə etdiyim kitablar
+            </div>
+
+            <a href="{% url 'book_create' %}" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2">
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+
+                Yeni kitab əlavə et
+            </a>
+
+        </div>
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert-success">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
+                    </svg>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        {% if books %}
+
+            <div class="book-list">
+
+                {% for book in books %}
+
+                    <div class="book-item">
+
+                        <!-- IMAGE -->
+
+                        <div>
+
+                            {% if book.cover_image %}
+
+                                <img
+                                    class="book-image"
+                                    src="{{ book.cover_image.image.url }}"
+                                    alt="{{ book.title }}"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+
+                            {% else %}
+
+                                <div class="no-image">
+                                    Şəkil yoxdur
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- CONTENT -->
+
+                        <div class="book-content">
+
+                            <h3>
+                                {{ book.title }}
+                            </h3>
+
+
+                            <div class="book-badges">
+
+                                <span class="badge condition-{{ book.condition }}">
+                                    {{ book.get_condition_display }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="book-price">
+                                {{ book.price }} AZN
+                            </div>
+
+
+                            <div class="book-meta">
+
+                                <strong>Müəllif:</strong>
+                                {{ book.author_name }}
+                                <br>
+
+                                <strong>Janr:</strong>
+                                {{ book.get_genre_display|default:"Qeyd olunmayıb" }}
+                                <br>
+
+                                <strong>Dil:</strong>
+                                {{ book.get_language_display|default:"Qeyd olunmayıb" }}
+
+                                {% if book.published_year %}
+                                    <br>
+                                    <strong>Nəşr ili:</strong>
+                                    {{ book.published_year }}
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="book-desc">
+
+                                {{ book.description|default:"Təsvir əlavə edilməyib."|linebreaksbr }}
+
+                            </div>
+
+
+                            <!-- ACTIONS -->
+
+                            <div class="actions">
+
+                                <!-- EDIT -->
+
+                                <a
+                                    href="{% url 'book_update' book.slug %}"
+                                    class="btn btn-secondary"
+                                >
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor"
+                                         stroke-width="2">
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                                        />
+
+                                    </svg>
+
+                                    Redaktə et
+
+                                </a>
+
+
+                                <!-- DELETE -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'book_delete' book.slug %}"
+                                    class="delete-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Bu kitabı silmək istədiyinizə əminsiniz?');"
+                                    >
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.682-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+
+                                        </svg>
+
+                                        Sil
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <svg class="empty-icon"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="1.5">
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                    />
+
+                </svg>
+
+
+                <strong>
+                    Hələ kitab əlavə etməmisiniz
+                </strong>
+
+
+                <p>
+                    İlk elanını əlavə et və
+                    kitablarını burada idarə et.
+                </p>
+
+
+                <a
+                    href="{% url 'book_create' %}"
+                    class="btn btn-primary"
+                >
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 4.5v15m7.5-7.5h-15"
+                        />
+
+                    </svg>
+
+                    Yeni kitab əlavə et
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

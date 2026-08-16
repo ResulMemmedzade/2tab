@@ -17,7 +17,6 @@
     >
 
     <style>
-
     :root {
         --background: #faf8f5;
         --foreground: #2d2a26;
@@ -52,13 +51,11 @@
             0 4px 16px rgba(45, 42, 38, 0.04);
     }
 
-
     * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
     }
-
 
     body {
         font-family:
@@ -75,91 +72,65 @@
         -webkit-font-smoothing: antialiased;
     }
 
-
     .container {
         max-width: 1200px;
-
         margin: 24px auto 48px;
-
         padding: 0 20px;
     }
-
 
     .page-heading {
         margin-bottom: 16px;
     }
 
-
     .page-heading h1 {
         font-size: 28px;
         font-weight: 800;
-
         color: var(--foreground);
-
         letter-spacing: -0.7px;
-
         line-height: 1.15;
     }
 
-
     .top-controls {
         display: flex;
-
         flex-direction: column;
-
         gap: 12px;
-
         margin-bottom: 18px;
     }
-
 
     .search-form {
         width: 100%;
     }
 
-
     .search-box-main {
         position: relative;
-
         width: 100%;
     }
-
 
     .search-box-main svg {
         position: absolute;
-
         left: 18px;
         top: 50%;
-
         transform: translateY(-50%);
-
         width: 22px;
         height: 22px;
-
         color: var(--muted-foreground);
-
         pointer-events: none;
     }
 
-
     .search-box-main input {
         width: 100%;
-
         height: 58px;
 
         padding: 0 18px 0 52px;
 
         border: 1px solid var(--border);
-
         border-radius: var(--radius);
 
         background: var(--card);
-
         color: var(--foreground);
 
         font-size: 16px;
         font-weight: 600;
-
         font-family: inherit;
 
         box-shadow: var(--shadow-sm);
@@ -169,7 +140,6 @@
         transition: all 0.2s ease;
     }
 
-
     .search-box-main input:focus {
         border-color: var(--primary);
 
@@ -178,36 +148,70 @@
             var(--shadow-sm);
     }
 
-
     .search-box-main input::placeholder {
         color: var(--muted-foreground);
-
         font-weight: 600;
     }
 
+    .search-submit {
+        position: absolute;
+
+        right: 8px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        width: 44px;
+        height: 44px;
+
+        border: none;
+        border-radius: 12px;
+
+        background: var(--primary);
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+    }
+
+    .search-submit:hover {
+        background: var(--primary-hover);
+        transform: translateY(-50%) scale(1.03);
+    }
+
+    .search-submit svg {
+        position: static;
+
+        width: 20px;
+        height: 20px;
+
+        transform: none;
+
+        color: white;
+    }
 
     .filter-toggle-btn {
         width: 100%;
-
         height: 56px;
 
         background: var(--secondary);
-
         color: var(--secondary-foreground);
 
         border: 1px solid var(--border);
-
         border-radius: var(--radius);
 
         font-size: 16px;
         font-weight: 800;
-
         font-family: inherit;
 
         cursor: pointer;
 
         display: inline-flex;
-
         align-items: center;
         justify-content: center;
 
@@ -216,11 +220,9 @@
         transition: all 0.2s ease;
     }
 
-
     .filter-toggle-btn:hover {
         background: var(--secondary-hover);
     }
-
 
     .filter-toggle-btn svg {
         width: 20px;
@@ -229,11 +231,9 @@
         transition: transform 0.2s ease;
     }
 
-
     .filter-toggle-btn[aria-expanded="true"] svg {
         transform: rotate(180deg);
     }
-
 
     .filters-card {
         display: none;
@@ -241,7 +241,6 @@
         background: var(--card);
 
         border: 1px solid var(--border);
-
         border-radius: var(--radius);
 
         padding: 18px;
@@ -251,11 +250,9 @@
         box-shadow: var(--shadow-sm);
     }
 
-
     .filters-card.is-open {
         display: block;
     }
-
 
     .filter-grid {
         display: grid;
@@ -270,16 +267,13 @@
         align-items: center;
     }
 
-
     select {
         width: 100%;
-
         height: 48px;
 
         padding: 0 14px;
 
         border: 1px solid var(--border);
-
         border-radius: var(--radius-sm);
 
         font-size: 14px;
@@ -291,12 +285,10 @@
         color: var(--foreground);
 
         font-family: inherit;
-
         font-weight: 600;
 
         transition: all 0.2s ease;
     }
-
 
     select:focus {
         border-color: var(--primary);
@@ -306,7 +298,6 @@
         box-shadow:
             0 0 0 3px rgba(196, 112, 75, 0.1);
     }
-
 
     .btn {
         display: inline-flex;
@@ -339,7 +330,6 @@
         font-family: inherit;
     }
 
-
     .btn-primary {
         background: var(--primary);
 
@@ -347,7 +337,6 @@
 
         box-shadow: var(--shadow-sm);
     }
-
 
     .btn-primary:hover {
         background: var(--primary-hover);
@@ -357,7 +346,6 @@
         box-shadow: var(--shadow);
     }
 
-
     .btn-secondary {
         background: var(--secondary);
 
@@ -366,11 +354,9 @@
         border: 1px solid var(--border);
     }
 
-
     .btn-secondary:hover {
         background: var(--secondary-hover);
     }
-
 
     .results-row {
         display: flex;
@@ -384,7 +370,6 @@
         margin: 0 0 18px;
     }
 
-
     .results-text {
         color: var(--muted-foreground);
 
@@ -393,13 +378,11 @@
         font-weight: 700;
     }
 
-
     .add-book-btn {
         min-width: 154px;
 
         border-radius: 14px;
     }
-
 
     .book-grid {
         display: grid;
@@ -412,28 +395,21 @@
         align-items: stretch;
     }
 
-
     @media (min-width: 640px) {
-
         .book-grid {
             grid-template-columns:
                 repeat(3, 1fr);
         }
-
     }
 
-
     @media (min-width: 1024px) {
-
         .book-grid {
             grid-template-columns:
                 repeat(4, 1fr);
 
             gap: 20px;
         }
-
     }
-
 
     .book-card {
         background: var(--card);
@@ -463,7 +439,6 @@
         cursor: pointer;
     }
 
-
     .book-card:hover {
         box-shadow: var(--shadow-lg);
 
@@ -471,7 +446,6 @@
 
         border-color: transparent;
     }
-
 
     .book-image-wrap {
         position: relative;
@@ -491,7 +465,6 @@
         flex-shrink: 0;
     }
 
-
     .book-image {
         width: 100%;
 
@@ -504,11 +477,9 @@
         display: block;
     }
 
-
     .book-card:hover .book-image {
         transform: scale(1.05);
     }
-
 
     .no-image {
         width: 100%;
@@ -530,7 +501,6 @@
 
         padding: 12px;
     }
-
 
     .book-card h3 {
         font-size: 16px;
@@ -554,7 +524,6 @@
         min-height: 44px;
     }
 
-
     .book-author {
         color: var(--muted-foreground);
 
@@ -573,7 +542,6 @@
         min-height: 20px;
     }
 
-
     .book-meta {
         display: flex;
 
@@ -588,7 +556,6 @@
         padding-top: 8px;
     }
 
-
     .book-price {
         font-size: 18px;
 
@@ -598,7 +565,6 @@
 
         line-height: 1.2;
     }
-
 
     .badge {
         display: inline-flex;
@@ -620,7 +586,6 @@
         white-space: nowrap;
     }
 
-
     .book-image-wrap .badge {
         position: absolute;
 
@@ -635,41 +600,30 @@
         backdrop-filter: blur(8px);
     }
 
-
     .condition-new {
         background: rgba(220, 252, 231, 0.95);
-
         color: #166534;
     }
 
-
     .condition-like-new {
         background: rgba(219, 234, 254, 0.95);
-
         color: #1d4ed8;
     }
 
-
     .condition-medium {
         background: rgba(224, 242, 254, 0.95);
-
         color: #075985;
     }
 
-
     .condition-like-old {
         background: rgba(255, 237, 213, 0.95);
-
         color: #c2410c;
     }
 
-
     .condition-old {
         background: rgba(254, 226, 226, 0.95);
-
         color: #b91c1c;
     }
-
 
     .empty {
         grid-column: 1 / -1;
@@ -689,7 +643,6 @@
         line-height: 1.7;
     }
 
-
     .empty strong {
         display: block;
 
@@ -700,9 +653,7 @@
         margin-bottom: 8px;
     }
 
-
     @media (max-width: 1050px) {
-
         .filter-grid {
             grid-template-columns:
                 repeat(2, 1fr);
@@ -711,23 +662,18 @@
         .filter-grid .btn {
             width: 100%;
         }
-
     }
 
-
     @media (max-width: 640px) {
-
         .container {
             margin: 18px auto 36px;
 
             padding: 0 16px;
         }
 
-
         .page-heading h1 {
             font-size: 24px;
         }
-
 
         .search-box-main input {
             height: 54px;
@@ -735,21 +681,22 @@
             font-size: 15px;
         }
 
+        .search-submit {
+            width: 40px;
+            height: 40px;
+        }
 
         .filter-grid {
             grid-template-columns: 1fr;
         }
 
-
         .results-row {
             align-items: center;
         }
 
-
         .results-text {
             font-size: 14px;
         }
-
 
         .add-book-btn {
             min-width: auto;
@@ -761,16 +708,13 @@
             font-size: 13px;
         }
 
-
         .book-grid {
             gap: 12px;
         }
 
-
         .book-card {
             padding: 10px;
         }
-
 
         .book-card h3 {
             font-size: 14px;
@@ -778,16 +722,13 @@
             min-height: 38px;
         }
 
-
         .book-author {
             font-size: 13px;
         }
 
-
         .book-price {
             font-size: 16px;
         }
-
 
         .badge {
             font-size: 10px;
@@ -795,26 +736,20 @@
             padding: 5px 9px;
         }
 
-
         .book-image-wrap .badge {
             left: 8px;
 
             bottom: 8px;
         }
-
     }
-
     </style>
 </head>
-
 
 <body>
 
     {% include 'includes/topbar.html' %}
 
-
     <div class="container">
-
 
         <!-- SEARCH -->
 
@@ -827,22 +762,7 @@
 
                 <div class="search-box-main">
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-
-                    </svg>
-
+                    
 
                     <input
                         type="text"
@@ -850,6 +770,28 @@
                         value="{{ search }}"
                         placeholder="Kitab axtar"
                     >
+
+                    <!-- SEARCH BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="search-submit"
+                        aria-label="Axtar"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                        </svg>
+                    </button>
 
                 </div>
 
@@ -874,13 +816,11 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M19 9l-7 7-7-7"
                     />
-
                 </svg>
 
             </button>
@@ -900,9 +840,6 @@
                 method="GET"
             >
 
-
-                <!-- SEARCH -->
-
                 <input
                     type="hidden"
                     name="search"
@@ -918,14 +855,12 @@
                         Bütün janrlar
                     </option>
 
-
                     <option
                         value="fiction"
                         {% if genre == 'fiction' %}selected{% endif %}
                     >
                         Bədii
                     </option>
-
 
                     <option
                         value="fantasy"
@@ -934,14 +869,12 @@
                         Fantastika
                     </option>
 
-
                     <option
                         value="science_fiction"
                         {% if genre == 'science_fiction' %}selected{% endif %}
                     >
                         Elmi fantastika
                     </option>
-
 
                     <option
                         value="mystery"
@@ -950,14 +883,12 @@
                         Detektiv
                     </option>
 
-
                     <option
                         value="thriller"
                         {% if genre == 'thriller' %}selected{% endif %}
                     >
                         Triller
                     </option>
-
 
                     <option
                         value="romance"
@@ -966,14 +897,12 @@
                         Romantik
                     </option>
 
-
                     <option
                         value="horror"
                         {% if genre == 'horror' %}selected{% endif %}
                     >
                         Qorxu
                     </option>
-
 
                     <option
                         value="history"
@@ -982,14 +911,12 @@
                         Tarix
                     </option>
 
-
                     <option
                         value="biography"
                         {% if genre == 'biography' %}selected{% endif %}
                     >
                         Bioqrafiya
                     </option>
-
 
                     <option
                         value="self_help"
@@ -998,14 +925,12 @@
                         Şəxsi inkişaf
                     </option>
 
-
                     <option
                         value="philosophy"
                         {% if genre == 'philosophy' %}selected{% endif %}
                     >
                         Fəlsəfə
                     </option>
-
 
                     <option
                         value="psychology"
@@ -1014,7 +939,6 @@
                         Psixologiya
                     </option>
 
-
                     <option
                         value="science"
                         {% if genre == 'science' %}selected{% endif %}
@@ -1022,14 +946,12 @@
                         Elmi
                     </option>
 
-
                     <option
                         value="business"
                         {% if genre == 'business' %}selected{% endif %}
                     >
                         Biznes
                     </option>
-
 
                     <option
                         value="children"
@@ -1049,14 +971,12 @@
                         Bütün dillər
                     </option>
 
-
                     <option
                         value="az"
                         {% if language == 'az' %}selected{% endif %}
                     >
                         Azərbaycan
                     </option>
-
 
                     <option
                         value="en"
@@ -1065,14 +985,12 @@
                         İngilis
                     </option>
 
-
                     <option
                         value="ru"
                         {% if language == 'ru' %}selected{% endif %}
                     >
                         Rus
                     </option>
-
 
                     <option
                         value="tr"
@@ -1092,14 +1010,12 @@
                         Bütün vəziyyətlər
                     </option>
 
-
                     <option
                         value="new"
                         {% if condition == 'new' %}selected{% endif %}
                     >
                         Yeni
                     </option>
-
 
                     <option
                         value="like_new"
@@ -1108,7 +1024,6 @@
                         Yeni kimi
                     </option>
 
-
                     <option
                         value="medium"
                         {% if condition == 'medium' %}selected{% endif %}
@@ -1116,14 +1031,12 @@
                         Orta
                     </option>
 
-
                     <option
                         value="like_old"
                         {% if condition == 'like_old' %}selected{% endif %}
                     >
                         Köhnə kimi
                     </option>
-
 
                     <option
                         value="old"
@@ -1146,14 +1059,12 @@
                         Ən yeni
                     </option>
 
-
                     <option
                         value="oldest"
                         {% if sort == 'oldest' %}selected{% endif %}
                     >
                         Ən köhnə
                     </option>
-
 
                     <option
                         value="price_asc"
@@ -1162,7 +1073,6 @@
                         Qiymət: əvvəl ucuz
                     </option>
 
-
                     <option
                         value="price_desc"
                         {% if sort == 'price_desc' %}selected{% endif %}
@@ -1170,14 +1080,12 @@
                         Qiymət: əvvəl baha
                     </option>
 
-
                     <option
                         value="title_asc"
                         {% if sort == 'title_asc' %}selected{% endif %}
                     >
                         A-dan Z-yə
                     </option>
-
 
                     <option
                         value="title_desc"
@@ -1218,16 +1126,11 @@
         <div class="results-row">
 
             <div class="results-text">
-
-                Hazırda
-                {{ book_count }}
-                kitab göstərilir.
-
+                Hazırda {{ book_count }} kitab göstərilir.
             </div>
 
-
             <a
-                href="#"
+                href="{% url 'book_create' %}"
                 class="btn btn-primary add-book-btn"
             >
                 + Kitab əlavə et
@@ -1240,20 +1143,16 @@
 
         <div class="book-grid">
 
-
             {% for book in books %}
-
 
                 <a
                     href="{% url 'book_detail' book.slug %}"
                     class="book-card"
                 >
 
-
                     <!-- IMAGE -->
 
                     <div class="book-image-wrap">
-
 
                         {% if book.cover_image %}
 
@@ -1308,7 +1207,6 @@
 
                         {% endif %}
 
-
                     </div>
 
 
@@ -1336,12 +1234,9 @@
 
                     </div>
 
-
                 </a>
 
-
             {% empty %}
-
 
                 <div class="empty">
 
@@ -1354,12 +1249,9 @@
 
                 </div>
 
-
             {% endfor %}
 
-
         </div>
-
 
     </div>
 
@@ -1370,35 +1262,29 @@
         "DOMContentLoaded",
         function () {
 
-
             const filterToggleBtn =
                 document.getElementById(
                     "filterToggleBtn"
                 );
-
 
             const filtersCard =
                 document.getElementById(
                     "filtersCard"
                 );
 
-
             if (
                 filterToggleBtn &&
                 filtersCard
             ) {
 
-
                 filterToggleBtn.addEventListener(
                     "click",
                     function () {
-
 
                         const isOpen =
                             filtersCard.classList.toggle(
                                 "is-open"
                             );
-
 
                         filterToggleBtn.setAttribute(
                             "aria-expanded",
@@ -1416,7 +1302,6 @@
     );
 
     </script>
-
 
 </body>
 </html>

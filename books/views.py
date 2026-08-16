@@ -25,16 +25,13 @@ def book_detail(request, slug):
 
 
 def book_list(request):
-
     books = Book.objects.prefetch_related('images')
-
 
     search = request.GET.get('search', '').strip()
     genre = request.GET.get('genre', '').strip()
     condition = request.GET.get('condition', '').strip()
     language = request.GET.get('language', '').strip()
     sort = request.GET.get('sort', 'newest').strip()
-
 
     if search:
         books = books.filter(
@@ -43,18 +40,14 @@ def book_list(request):
             Q(description__icontains=search)
         )
 
-
     if genre:
         books = books.filter(genre=genre)
-
 
     if condition:
         books = books.filter(condition=condition)
 
-
     if language:
         books = books.filter(language=language)
-
 
     sort_options = {
         'newest': '-created_at',
@@ -69,16 +62,19 @@ def book_list(request):
         sort_options.get(sort, '-created_at')
     )
 
-    context={
-                'books': books,
-                'search': search,
-                'genre': genre,
-                'condition': condition,
-                'language': language,
-                'sort': sort,
-            }
+    book_count = books.count()
 
-    return render(request,'books/book_list.html',context)
+    context = {
+        'books': books,
+        'book_count': book_count,
+        'search': search,
+        'genre': genre,
+        'condition': condition,
+        'language': language,
+        'sort': sort,
+    }
+
+    return render(request, 'books/book_list.html', context)
 
 def contact_us(request):
     return render(request, "books/contact_us.html")

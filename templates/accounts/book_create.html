@@ -1,0 +1,762 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>2tab | Kitab əlavə et</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        :root {
+            --background: #faf8f5;
+            --foreground: #2d2a26;
+            --card: #ffffff;
+
+            --primary: #c4704b;
+            --primary-hover: #b5613c;
+            --primary-foreground: #ffffff;
+
+            --secondary: #f3efe9;
+            --secondary-hover: #e8e2d9;
+            --secondary-foreground: #4a4540;
+
+            --muted-foreground: #7a756d;
+            --border: #e5dfd6;
+
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+
+            --radius: 16px;
+            --radius-sm: 12px;
+
+            --shadow-sm:
+                0 1px 3px rgba(45, 42, 38, 0.04),
+                0 1px 2px rgba(45, 42, 38, 0.06);
+
+            --shadow:
+                0 4px 20px rgba(45, 42, 38, 0.06),
+                0 2px 8px rgba(45, 42, 38, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 32px auto 48px;
+            padding: 0 20px;
+        }
+
+        .page-card,
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .page-card {
+            padding: 32px;
+            margin-bottom: 20px;
+        }
+
+        .page-title h1 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: var(--muted-foreground);
+            font-size: 15px;
+        }
+
+        .card {
+            padding: 28px;
+        }
+
+        .card h2 {
+            font-size: 22px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--secondary-foreground);
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            outline: none;
+            background: var(--secondary);
+            color: var(--foreground);
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(196, 112, 75, .1);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            border: none;
+            border-radius: var(--radius-sm);
+
+            padding: 13px 20px;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+            text-decoration: none;
+
+            transition: .2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+        }
+
+        .submit-row {
+            margin-top: 28px;
+        }
+
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .field-error {
+            color: #b91c1c;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .image-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .image-section h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .image-help {
+            color: var(--muted-foreground);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .image-box {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            background: var(--secondary);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: none;
+            margin-bottom: 10px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+
+        .image-preview.show {
+            display: block;
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .image-actions .btn {
+            flex: 1;
+            padding: 9px 10px;
+            font-size: 12px;
+        }
+
+        .file-input {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        .empty-image {
+            height: 190px;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--muted-foreground);
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 900px) {
+
+            .row-2,
+            .row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 640px) {
+
+            .container {
+                margin: 20px auto 36px;
+                padding: 0 16px;
+            }
+
+            .page-card {
+                padding: 24px 20px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .submit-row .btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+{% include 'includes/topbar.html' %}
+
+
+<div class="container">
+
+    <div class="page-card">
+
+        <div class="page-title">
+
+            <h1>Kitab əlavə et</h1>
+
+            <p>
+                Yeni kitab elanını əlavə et.
+                Məlumatları düzgün doldur.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Yeni kitab məlumatları</h2>
+
+
+        {% if form.non_field_errors %}
+
+            <div class="error-box">
+
+                {{ form.non_field_errors }}
+
+            </div>
+
+        {% endif %}
+
+
+        {% if formset.non_form_errors %}
+
+            <div class="error-box">
+
+                {{ formset.non_form_errors }}
+
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- FORMSET MANAGEMENT -->
+
+            {{ formset.management_form }}
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="{{ form.title.id_for_label }}">
+                    Kitabın adı
+                </label>
+
+                {{ form.title }}
+
+                {% for error in form.title.errors %}
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- AUTHOR -->
+
+            <div class="form-group">
+
+                <label for="{{ form.author_name.id_for_label }}">
+                    Müəllif
+                </label>
+
+                {{ form.author_name }}
+
+                {% for error in form.author_name.errors %}
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Təsvir
+                </label>
+
+                {{ form.description }}
+
+                {% for error in form.description.errors %}
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- PRICE + GENRE -->
+
+            <div class="row-2">
+
+                <div class="form-group">
+
+                    <label for="{{ form.price.id_for_label }}">
+                        Qiymət
+                    </label>
+
+                    {{ form.price }}
+
+                    {% for error in form.price.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.genre.id_for_label }}">
+                        Janr
+                    </label>
+
+                    {{ form.genre }}
+
+                    {% for error in form.genre.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- LANGUAGE / CONDITION / YEAR -->
+
+            <div class="row-3">
+
+                <div class="form-group">
+
+                    <label for="{{ form.language.id_for_label }}">
+                        Dil
+                    </label>
+
+                    {{ form.language }}
+
+                    {% for error in form.language.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.condition.id_for_label }}">
+                        Vəziyyət
+                    </label>
+
+                    {{ form.condition }}
+
+                    {% for error in form.condition.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.published_year.id_for_label }}">
+                        Nəşr ili
+                    </label>
+
+                    {{ form.published_year }}
+
+                    {% for error in form.published_year.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGES -->
+
+            <div class="image-section">
+
+                <h3>Kitab şəkilləri</h3>
+
+                <p class="image-help">
+                    Maksimum 3 şəkil əlavə edə bilərsən.
+                    Şəkil seçdikdən sonra önizləməsini görə və ləğv edə bilərsən.
+                </p>
+
+
+                <div class="image-grid">
+
+
+                    {% for image_form in formset %}
+
+                        <div class="image-box">
+
+                            <div
+                                class="empty-image"
+                                id="empty-{{ forloop.counter0 }}"
+                            >
+                                Şəkil seçilməyib
+                            </div>
+
+
+                            <img
+                                class="image-preview"
+                                id="preview-{{ forloop.counter0 }}"
+                                alt="Şəkil önizləməsi"
+                            >
+
+
+                            {{ image_form.image }}
+
+
+                            {% for error in image_form.image.errors %}
+
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+
+                            <div class="image-actions">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    onclick="clearImage({{ forloop.counter0 }})"
+                                >
+                                    Ləğv et
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="submit-row">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Kitabı əlavə et
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const inputs = document.querySelectorAll(
+        'input[type="file"]'
+    );
+
+    inputs.forEach(function (input, index) {
+
+        input.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            const preview = document.getElementById(
+                "preview-" + index
+            );
+
+            const empty = document.getElementById(
+                "empty-" + index
+            );
+
+            if (!file) {
+                clearImage(index);
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                alert("Zəhmət olmasa şəkil faylı seç.");
+                clearImage(index);
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert("Şəkil maksimum 10 MB ola bilər.");
+                clearImage(index);
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                preview.src = event.target.result;
+
+                preview.classList.add("show");
+
+                empty.style.display = "none";
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+    });
+
+});
+
+
+function clearImage(index) {
+
+    const input = document.querySelectorAll(
+        'input[type="file"]'
+    )[index];
+
+    const preview = document.getElementById(
+        "preview-" + index
+    );
+
+    const empty = document.getElementById(
+        "empty-" + index
+    );
+
+    if (input) {
+        input.value = "";
+    }
+
+    if (preview) {
+
+        preview.src = "";
+
+        preview.classList.remove("show");
+
+    }
+
+    if (empty) {
+        empty.style.display = "flex";
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

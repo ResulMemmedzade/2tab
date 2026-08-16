@@ -26,12 +26,16 @@ SECRET_KEY = 'django-insecure-lgrq7z917bc$(%+i7vi_8#-oskxr6kmqxb+0c&*5pzvq5d9fsu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.dev',
+]# Ngrok-dan gələn POST sorğularını bloklamamaq üçün
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     # Local apps
     'accounts',
     'books',
+    'messaging',
 
 ]
 
@@ -65,6 +70,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'accounts.context_processors.unread_message_count',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -73,8 +79,26 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
 
+# Redis Channels Layer (WebSockets üçün Redis konfiqurasiyası)
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)], # Lokal Redis serveri
+#         },
+#     },
+# }
+
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
@@ -92,16 +116,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'accounts.validators.ComplexPasswordValidator',
     },
 ]
 
@@ -150,3 +165,32 @@ MAILERS = {
     },
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1", # Redis lokalda işləməlidir
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# core/settings.py
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/2' # 2-ci bazanı istifadə edirik ki, cache ilə qarışmasın
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BOrNU-RcyUHECHzQULJOkNoEgO7l3UIzX4CuCzqcGVqZVuWZxW5pRI0fVAXqnFBLrnhTB-o107MyF1ReyEe2eHQ",
+    "VAPID_PRIVATE_KEY": "BKjY_DsX9jk9xPeghVTwqgsi10qicyS2sv0qeRHtmvg",
+    "VAPID_ADMIN_EMAIL": "mailto:admin@2tab.az",
+}
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'

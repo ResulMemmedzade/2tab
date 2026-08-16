@@ -1,6 +1,4 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -218,11 +216,7 @@
         }
 
         .admin-form {
-            margin-top: 16px;
-        }
-
-        .admin-link {
-            margin-top: 16px;
+            margin-top: 0;
         }
 
         .note {
@@ -231,46 +225,6 @@
             color: var(--muted-foreground);
             font-size: 13px;
             line-height: 1.6;
-        }
-
-        @media (max-width: 480px) {
-            .page {
-                padding: 16px 16px 40px;
-            }
-
-            .card {
-                padding: 22px 18px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-            }
-
-            .contact-item {
-                padding: 14px;
-            }
-
-            .icon {
-                width: 40px;
-                height: 40px;
-            }
-
-            .icon svg {
-                width: 20px;
-                height: 20px;
-            }
-
-            .contact-title {
-                font-size: 14px;
-            }
-
-            .contact-value {
-                font-size: 13px;
-            }
         }
     </style>
 </head>
@@ -350,11 +304,11 @@
                 </div>
             </a>
 
-            <?php if ($user_id): ?>
-                <form method="POST" action="<?= e(basePath('start_chat.php')) ?>" class="admin-form">
-                    <input type="hidden" name="user_id" value="3">
-                    <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
-                    <button type="submit" class="contact-item">
+            <!-- DJANGO İSTİFADƏÇİ YOXLAMASI -->
+            {% if request.user.is_authenticated %}
+                <!-- Əgər daxil olan istifadəçi admin deyilsə (və ya sadəcə istifadəçidirsə), adminlə chat açmaq düyməsini göstəririk -->
+                {% if not request.user.is_superuser %}
+                    <a href="{% url 'start_chat_with_admin' %}" class="contact-item">
                         <div class="contact-left">
                             <div class="icon icon-chat">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -371,10 +325,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                             </svg>
                         </div>
-                    </button>
-                </form>
-            <?php else: ?>
-                <a href="<?= e(basePath('login.php?redirect=' . urlencode(basePath('contact.php')))) ?>" class="contact-item admin-link">
+                    </a>
+                {% endif %}
+            {% else %}
+                <!-- Əgər giriş etməyibsə -->
+                <a href="{% url 'login' %}" class="contact-item">
                     <div class="contact-left">
                         <div class="icon icon-chat">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -392,7 +347,7 @@
                         </svg>
                     </div>
                 </a>
-            <?php endif; ?>
+            {% endif %}
         </div>
 
         <div class="note">

@@ -40,6 +40,7 @@ class Book(models.Model):
     author_name = models.CharField(max_length=100)
 
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    published_year = models.PositiveIntegerField(null=True,blank=True)
     condition = models.CharField(max_length=20, choices=Condition.choices, default=Condition.MEDIUM)
     genre = models.CharField(max_length=20, choices=Genre.choices)
     language = models.CharField(max_length=5,choices=Language.choices,default=Language.AZERBAIJANI)
@@ -57,7 +58,16 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title) or "book"
+            base_slug = slugify(self.title) or "book"
+            slug = base_slug
+            counter = 1
+
+            while Book.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
 

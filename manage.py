@@ -2,6 +2,16 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import asyncio
+
+# BURA ƏLAVƏ OLUNUR: Windows üçün Redis Timeout problemini həll edən kod
+if sys.platform == 'win32':
+    try:
+        # Python 3.15 və aşağısı üçün işləyəcək
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    except AttributeError:
+        # Python 3.16 və yuxarısında bu funksiya silinsə, heç bir xəta vermədən davam edəcək
+        pass
 
 
 def main():

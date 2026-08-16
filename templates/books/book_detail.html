@@ -4,354 +4,1429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ book.title }} - 2tab</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
     :root {
-        --background:#faf8f5;--foreground:#2d2a26;--card:#ffffff;--primary:#c4704b;--primary-hover:#b5613c;
-        --primary-foreground:#ffffff;--secondary:#f3efe9;--secondary-hover:#e8e2d9;--secondary-foreground:#4a4540;
-        --muted:#f0ebe4;--muted-foreground:#7a756d;--border:#e5dfd6;--radius:16px;--radius-sm:12px;
-        --shadow-sm:0 1px 3px rgba(45,42,38,.04),0 1px 2px rgba(45,42,38,.06);
-        --shadow:0 4px 20px rgba(45,42,38,.06),0 2px 8px rgba(45,42,38,.04);
+        --background:#faf8f5;
+        --foreground:#2d2a26;
+        --card:#ffffff;
+
+        --primary:#c4704b;
+        --primary-hover:#b5613c;
+        --primary-foreground:#ffffff;
+
+        --secondary:#f3efe9;
+        --secondary-hover:#e8e2d9;
+        --secondary-foreground:#4a4540;
+
+        --muted:#f0ebe4;
+        --muted-foreground:#7a756d;
+
+        --border:#e5dfd6;
+
+        --radius:16px;
+        --radius-sm:12px;
+
+        --shadow-sm:
+            0 1px 3px rgba(45,42,38,.04),
+            0 1px 2px rgba(45,42,38,.06);
+
+        --shadow:
+            0 4px 20px rgba(45,42,38,.06),
+            0 2px 8px rgba(45,42,38,.04);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--background);color:var(--foreground);line-height:1.5;-webkit-font-smoothing:antialiased}
-    .container{max-width:1200px;margin:24px auto 48px;padding:0 20px}
-    .back-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;text-decoration:none;color:var(--primary);font-weight:600;font-size:15px;transition:all .2s ease}
-    .back-link:hover{color:var(--primary-hover)}
-    .back-link svg{width:18px;height:18px}
-    .book-detail{display:grid;grid-template-columns:400px 1fr;gap:32px;background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--border)}
-    .slider-wrapper{position:relative;width:100%;border-radius:var(--radius-sm);overflow:hidden;background:var(--muted);aspect-ratio:3/4}
-    .slider-track{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.25,1,.5,1)}
-    .book-cover{width:100%;height:100%;flex-shrink:0;object-fit:cover;display:block;cursor:zoom-in}
-    .no-image{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted-foreground);font-size:14px}
-    .slider-btn{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.85);border:1px solid var(--border);color:var(--foreground);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);box-shadow:var(--shadow-sm);transition:all .2s ease;z-index:10}
-    .slider-btn:hover{background:#fff;color:var(--primary);transform:translateY(-50%) scale(1.05)}
-    .slider-btn-prev{left:12px}.slider-btn-next{right:12px}
-    .slider-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
-    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .2s ease}
-    .dot.active{background:var(--primary);width:20px;border-radius:4px}
-    .book-info{display:flex;flex-direction:column}
-    .book-info h1{font-size:32px;font-weight:800;color:var(--foreground);margin-bottom:4px;line-height:1.2;letter-spacing:-.5px}
-    .book-author{font-size:16px;color:var(--muted-foreground);margin-bottom:20px}
-    .book-price-tag{font-size:28px;font-weight:800;color:var(--primary);margin-bottom:24px}
-    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-    .info-box{background:#f4efe8;border-radius:var(--radius-sm);padding:16px 20px;display:flex;flex-direction:column;justify-content:center}
-    .info-box.full-width{grid-column:span 2}
-    .info-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#8c827a;margin-bottom:8px}
-    .info-value{font-size:15px;font-weight:600;color:var(--foreground)}
-    .condition-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;text-transform:uppercase;width:fit-content}
-    .condition-new{background:rgba(220,252,231,.95);color:#166534}
-    .condition-like_new{background:rgba(219,234,254,.95);color:#1d4ed8}
-    .condition-medium{background:rgba(224,242,254,.95);color:#075985}
-    .condition-like_old{background:rgba(255,237,213,.95);color:#c2410c}
-    .condition-old{background:rgba(254,226,226,.95);color:#b91c1c}
-    .action-buttons{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:var(--radius-sm);text-decoration:none;font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:inherit;transition:all .2s ease}
-    .btn svg{width:18px;height:18px}
-    .btn-fav{background:#ebdcd0;color:var(--foreground);border:none}
-    .btn-fav:hover{background:#e2cfc0}
-    .btn-contact{background:var(--primary);color:#fff}
-    .btn-contact:hover{background:var(--primary-hover);transform:translateY(-1px)}
-    .btn-edit{background:var(--secondary);color:var(--secondary-foreground);border:1px solid var(--border)}
-    .btn-edit:hover{background:var(--secondary-hover)}
-    .image-modal{position:fixed;inset:0;z-index:9999;background:rgba(20,18,16,.88);display:none;align-items:center;justify-content:center;padding:24px}
-    .image-modal.active{display:flex}
-    .image-modal img{max-width:96vw;max-height:92vh;object-fit:contain;border-radius:14px;background:#fff;box-shadow:0 20px 80px rgba(0,0,0,.35)}
-    .image-modal-close{position:fixed;top:18px;right:18px;width:42px;height:42px;border:none;border-radius:999px;background:rgba(255,255,255,.92);color:#2d2a26;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10000}
-    @media(max-width:980px){
-        .book-detail{grid-template-columns:1fr;gap:24px}
-        .slider-wrapper{max-width:500px;margin:0 auto}
-        .book-info h1{font-size:28px}
+
+    * {
+        box-sizing:border-box;
+        margin:0;
+        padding:0;
     }
-    @media(max-width:768px){
-        .container{padding:0 16px;margin:20px auto 40px}
-        .book-detail{padding:20px}
-        .info-grid{grid-template-columns:1fr}
-        .info-box.full-width{grid-column:span 1}
-        .slider-wrapper{max-width:100%}
+
+    body {
+        font-family:
+            'Inter',
+            -apple-system,
+            BlinkMacSystemFont,
+            sans-serif;
+
+        background:var(--background);
+        color:var(--foreground);
+
+        line-height:1.5;
+
+        -webkit-font-smoothing:antialiased;
     }
-    @media(max-width:640px){
-        .book-info h1{font-size:24px}
-        .book-author{font-size:15px}
-        .book-price-tag{font-size:26px}
-        .action-buttons{flex-direction:column}
-        .action-buttons .btn{width:100%}
+
+    .container {
+        max-width:1200px;
+
+        margin:24px auto 48px;
+
+        padding:0 20px;
+    }
+
+    .back-link {
+        display:inline-flex;
+
+        align-items:center;
+
+        gap:8px;
+
+        margin-bottom:20px;
+
+        text-decoration:none;
+
+        color:var(--primary);
+
+        font-weight:600;
+
+        font-size:15px;
+
+        transition:all .2s ease;
+    }
+
+    .back-link:hover {
+        color:var(--primary-hover);
+    }
+
+    .back-link svg {
+        width:18px;
+        height:18px;
+    }
+
+    .book-detail {
+        display:grid;
+
+        grid-template-columns:400px 1fr;
+
+        gap:32px;
+
+        background:var(--card);
+
+        border-radius:var(--radius);
+
+        padding:28px;
+
+        box-shadow:var(--shadow);
+
+        border:1px solid var(--border);
+    }
+
+    .slider-wrapper {
+        position:relative;
+
+        width:100%;
+
+        border-radius:var(--radius-sm);
+
+        overflow:hidden;
+
+        background:var(--muted);
+
+        aspect-ratio:3/4;
+    }
+
+    .slider-track {
+        display:flex;
+
+        width:100%;
+        height:100%;
+
+        transition:
+            transform .3s cubic-bezier(.25,1,.5,1);
+    }
+
+    .book-cover {
+        width:100%;
+        height:100%;
+
+        flex-shrink:0;
+
+        object-fit:cover;
+
+        display:block;
+
+        cursor:zoom-in;
+    }
+
+    .no-image {
+        width:100%;
+        height:100%;
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        color:var(--muted-foreground);
+
+        font-size:14px;
+    }
+
+    .slider-btn {
+        position:absolute;
+
+        top:50%;
+
+        transform:translateY(-50%);
+
+        width:38px;
+        height:38px;
+
+        border-radius:50%;
+
+        background:rgba(255,255,255,.85);
+
+        border:1px solid var(--border);
+
+        color:var(--foreground);
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        cursor:pointer;
+
+        backdrop-filter:blur(4px);
+
+        box-shadow:var(--shadow-sm);
+
+        transition:all .2s ease;
+
+        z-index:10;
+    }
+
+    .slider-btn:hover {
+        background:#fff;
+
+        color:var(--primary);
+
+        transform:
+            translateY(-50%)
+            scale(1.05);
+    }
+
+    .slider-btn-prev {
+        left:12px;
+    }
+
+    .slider-btn-next {
+        right:12px;
+    }
+
+    .slider-dots {
+        position:absolute;
+
+        bottom:12px;
+
+        left:50%;
+
+        transform:translateX(-50%);
+
+        display:flex;
+
+        gap:6px;
+
+        z-index:10;
+    }
+
+    .dot {
+        width:8px;
+        height:8px;
+
+        border-radius:50%;
+
+        background:rgba(255,255,255,.5);
+
+        cursor:pointer;
+
+        transition:all .2s ease;
+    }
+
+    .dot.active {
+        background:var(--primary);
+
+        width:20px;
+
+        border-radius:4px;
+    }
+
+    .book-info {
+        display:flex;
+
+        flex-direction:column;
+    }
+
+    .book-info h1 {
+        font-size:32px;
+
+        font-weight:800;
+
+        color:var(--foreground);
+
+        margin-bottom:4px;
+
+        line-height:1.2;
+
+        letter-spacing:-.5px;
+    }
+
+    .book-author {
+        font-size:16px;
+
+        color:var(--muted-foreground);
+
+        margin-bottom:20px;
+    }
+
+    .book-price-tag {
+        font-size:28px;
+
+        font-weight:800;
+
+        color:var(--primary);
+
+        margin-bottom:24px;
+    }
+
+    /*
+        3 sütun:
+        Vəziyyət | Janr | Dil
+        Satıcı   | Elan  | Nəşr
+    */
+
+    .info-grid {
+        display:grid;
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap:12px;
+
+        margin-bottom:16px;
+    }
+
+    .info-box {
+        background:#f4efe8;
+
+        border-radius:var(--radius-sm);
+
+        padding:14px 16px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        min-width:0;
+    }
+
+    .info-box.full-width {
+        grid-column:1 / -1;
+    }
+
+    .info-label {
+        font-size:10px;
+
+        font-weight:700;
+
+        text-transform:uppercase;
+
+        letter-spacing:.5px;
+
+        color:#8c827a;
+
+        margin-bottom:7px;
+    }
+
+    .info-value {
+        font-size:14px;
+
+        font-weight:600;
+
+        color:var(--foreground);
+
+        overflow-wrap:anywhere;
+    }
+
+    .condition-badge {
+        display:inline-block;
+
+        padding:4px 10px;
+
+        border-radius:6px;
+
+        font-size:11px;
+
+        font-weight:700;
+
+        text-transform:uppercase;
+
+        width:fit-content;
+    }
+
+    .condition-new {
+        background:rgba(220,252,231,.95);
+
+        color:#166534;
+    }
+
+    .condition-like_new {
+        background:rgba(219,234,254,.95);
+
+        color:#1d4ed8;
+    }
+
+    .condition-medium {
+        background:rgba(224,242,254,.95);
+
+        color:#075985;
+    }
+
+    .condition-like_old {
+        background:rgba(255,237,213,.95);
+
+        color:#c2410c;
+    }
+
+    .condition-old {
+        background:rgba(254,226,226,.95);
+
+        color:#b91c1c;
+    }
+
+    .action-buttons {
+        display:flex;
+
+        gap:12px;
+
+        margin-top:24px;
+
+        flex-wrap:wrap;
+    }
+
+    .btn {
+        display:inline-flex;
+
+        align-items:center;
+        justify-content:center;
+
+        gap:8px;
+
+        padding:14px 24px;
+
+        border-radius:var(--radius-sm);
+
+        text-decoration:none;
+
+        font-weight:600;
+
+        font-size:15px;
+
+        border:none;
+
+        cursor:pointer;
+
+        font-family:inherit;
+
+        transition:all .2s ease;
+    }
+
+    .btn svg {
+        width:18px;
+        height:18px;
+    }
+
+    .btn-fav {
+        background:#ebdcd0;
+
+        color:var(--foreground);
+
+        border:none;
+    }
+
+    .btn-fav:hover {
+        background:#e2cfc0;
+    }
+
+    .btn-contact {
+        background:var(--primary);
+
+        color:#fff;
+    }
+
+    .btn-contact:hover {
+        background:var(--primary-hover);
+
+        transform:translateY(-1px);
+    }
+
+    .btn-edit {
+        background:var(--secondary);
+
+        color:var(--secondary-foreground);
+
+        border:1px solid var(--border);
+    }
+
+    .btn-edit:hover {
+        background:var(--secondary-hover);
+    }
+
+    .image-modal {
+        position:fixed;
+
+        inset:0;
+
+        z-index:9999;
+
+        background:rgba(20,18,16,.88);
+
+        display:none;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:24px;
+    }
+
+    .image-modal.active {
+        display:flex;
+    }
+
+    .image-modal img {
+        max-width:96vw;
+
+        max-height:92vh;
+
+        object-fit:contain;
+
+        border-radius:14px;
+
+        background:#fff;
+
+        box-shadow:0 20px 80px rgba(0,0,0,.35);
+    }
+
+    .image-modal-close {
+        position:fixed;
+
+        top:18px;
+        right:18px;
+
+        width:42px;
+        height:42px;
+
+        border:none;
+
+        border-radius:999px;
+
+        background:rgba(255,255,255,.92);
+
+        color:#2d2a26;
+
+        font-size:28px;
+
+        line-height:1;
+
+        cursor:pointer;
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        z-index:10000;
+    }
+
+    @media(max-width:980px) {
+
+        .book-detail {
+            grid-template-columns:1fr;
+
+            gap:24px;
+        }
+
+        .slider-wrapper {
+            max-width:500px;
+
+            margin:0 auto;
+        }
+
+        .book-info h1 {
+            font-size:28px;
+        }
+    }
+
+    @media(max-width:768px) {
+
+        .container {
+            padding:0 16px;
+
+            margin:20px auto 40px;
+        }
+
+        .book-detail {
+            padding:20px;
+        }
+
+        .info-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .info-box.full-width {
+            grid-column:1 / -1;
+        }
+
+        .slider-wrapper {
+            max-width:100%;
+        }
+    }
+
+    @media(max-width:640px) {
+
+        .book-info h1 {
+            font-size:24px;
+        }
+
+        .book-author {
+            font-size:15px;
+        }
+
+        .book-price-tag {
+            font-size:26px;
+        }
+
+        .info-grid {
+            grid-template-columns:1fr;
+        }
+
+        .info-box.full-width {
+            grid-column:1;
+        }
+
+        .action-buttons {
+            flex-direction:column;
+        }
+
+        .action-buttons .btn {
+            width:100%;
+        }
     }
     </style>
 </head>
+
 <body>
 
 {% include 'includes/topbar.html' %}
 
 <div class="container">
+
     <a href="{% url 'book_list' %}" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
         </svg>
+
         Kitablara qayıt
+
     </a>
+
 
     <div class="book-detail">
 
         <!-- ŞƏKİL SLIDER -->
+
         <div class="slider-wrapper">
+
             {% with image_list=book.images.all %}
+
                 {% if image_list %}
-                    <div class="slider-track" id="sliderTrack">
+
+                    <div
+                        class="slider-track"
+                        id="sliderTrack"
+                    >
+
                         {% for img in image_list %}
-                            <img src="{{ img.image.url }}" alt="{{ book.title }}" class="book-cover" data-image-url="{{ img.image.url }}">
+
+                            <img
+                                src="{{ img.image.url }}"
+                                alt="{{ book.title }}"
+                                class="book-cover"
+                                data-image-url="{{ img.image.url }}"
+                            >
+
                         {% endfor %}
+
                     </div>
+
 
                     {% if image_list|length > 1 %}
-                        <button type="button" class="slider-btn slider-btn-prev" id="prevBtn" aria-label="Əvvəlki şəkil">
-                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+
+                        <button
+                            type="button"
+                            class="slider-btn slider-btn-prev"
+                            id="prevBtn"
+                            aria-label="Əvvəlki şəkil"
+                        >
+
+                            <svg
+                                width="20"
+                                height="20"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15 19l-7-7 7-7"
+                                />
                             </svg>
+
                         </button>
 
-                        <button type="button" class="slider-btn slider-btn-next" id="nextBtn" aria-label="Növbəti şəkil">
-                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+
+                        <button
+                            type="button"
+                            class="slider-btn slider-btn-next"
+                            id="nextBtn"
+                            aria-label="Növbəti şəkil"
+                        >
+
+                            <svg
+                                width="20"
+                                height="20"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                />
                             </svg>
+
                         </button>
 
-                        <div class="slider-dots" id="sliderDots">
+
+                        <div
+                            class="slider-dots"
+                            id="sliderDots"
+                        >
+
                             {% for img in image_list %}
-                                <span class="dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></span>
+
+                                <span
+                                    class="dot {% if forloop.first %}active{% endif %}"
+                                    data-index="{{ forloop.counter0 }}"
+                                ></span>
+
                             {% endfor %}
+
                         </div>
+
                     {% endif %}
+
                 {% else %}
-                    <div class="no-image">Şəkil yoxdur</div>
+
+                    <div class="no-image">
+                        Şəkil yoxdur
+                    </div>
+
                 {% endif %}
+
             {% endwith %}
+
         </div>
 
+
         <!-- BOOK INFORMATION -->
+
         <div class="book-info">
-            <h1>{{ book.title }}</h1>
-            <div class="book-author">{{ book.author_name }}</div>
-            <div class="book-price-tag">{{ book.price }} AZN</div>
 
-            <div class="info-grid">
-                <div class="info-box">
-                    <div class="info-label">VƏZİYYƏT</div>
-                    <div class="info-value">
-                        <span class="condition-badge condition-{{ book.condition }}">{{ book.get_condition_display }}</span>
-                    </div>
-                </div>
+            <h1>
+                {{ book.title }}
+            </h1>
 
-                <div class="info-box">
-                    <div class="info-label">JANR</div>
-                    <div class="info-value">{{ book.get_genre_display|default:"Qeyd olunmayıb" }}</div>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-label">SATICI</div>
-                    <div class="info-value">
-                        {% if book.owner %}
-                            {% if book.owner.get_full_name %}
-                                {{ book.owner.get_full_name }}
-                            {% else %}
-                                {{ book.owner.username }}
-                            {% endif %}
-                        {% else %}
-                            Anonim
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-label">ELAN TARİXİ</div>
-                    <div class="info-value">{{ book.created_at|date:"d.m.Y H:i" }}</div>
-                </div>
-
-                {% if book.description %}
-                    <div class="info-box full-width">
-                        <div class="info-label">TƏSVİR</div>
-                        <div class="info-value" style="font-weight:400;line-height:1.6">{{ book.description|linebreaksbr }}</div>
-                    </div>
-                {% endif %}
+            <div class="book-author">
+                {{ book.author_name }}
             </div>
 
+            <div class="book-price-tag">
+                {{ book.price }} AZN
+            </div>
+
+
+            <div class="info-grid">
+
+                <!-- VƏZİYYƏT -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        VƏZİYYƏT
+                    </div>
+
+                    <div class="info-value">
+
+                        <span class="condition-badge condition-{{ book.condition }}">
+                            {{ book.get_condition_display }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- JANR -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        JANR
+                    </div>
+
+                    <div class="info-value">
+                        {{ book.get_genre_display|default:"Qeyd olunmayıb" }}
+                    </div>
+
+                </div>
+
+
+                <!-- DİL -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        DİL
+                    </div>
+
+                    <div class="info-value">
+
+                        {{ book.get_language_display|default:"Qeyd olunmayıb" }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- SATICI -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        SATICI
+                    </div>
+
+                    <div class="info-value">
+
+                    {% if book.owner %}
+                        {{ book.owner.name|default:"İstifadəçi" }}
+                    {% else %}
+                        Anonim
+                    {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ELAN TARİXİ -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        ELAN TARİXİ
+                    </div>
+
+                    <div class="info-value">
+                        {{ book.created_at|date:"d.m.Y H:i" }}
+                    </div>
+
+                </div>
+
+
+                <!-- NƏŞR İLİ -->
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        NƏŞR İLİ
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if book.published_year %}
+
+                            {{ book.published_year }}
+
+                        {% else %}
+
+                            Qeyd olunmayıb
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- TƏSVİR -->
+
+                {% if book.description %}
+
+                    <div class="info-box full-width">
+
+                        <div class="info-label">
+                            TƏSVİR
+                        </div>
+
+                        <div
+                            class="info-value"
+                            style="font-weight:400;line-height:1.6"
+                        >
+                            {{ book.description|linebreaksbr }}
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
             <!-- ACTION BUTTONS -->
+
             <div class="action-buttons">
 
                 <!-- FAVORITE -->
+
                 {% if user.is_authenticated %}
-                    <button type="button" class="btn btn-fav" id="favoriteBtn" data-url="{% url 'toggle_favorite' book.slug %}">
-                        <svg id="favoriteIcon" xmlns="http://www.w3.org/2000/svg" fill="{% if is_favorite %}currentColor{% else %}none{% endif %}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+
+                    <button
+                        type="button"
+                        class="btn btn-fav"
+                        id="favoriteBtn"
+                        data-url="{% url 'toggle_favorite' book.slug %}"
+                    >
+
+                        <svg
+                            id="favoriteIcon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="{% if is_favorite %}currentColor{% else %}none{% endif %}"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                            />
+
                         </svg>
-                        <span id="favoriteText">{% if is_favorite %}Favoridən çıxar{% else %}Favorilərə əlavə et{% endif %}</span>
+
+                        <span id="favoriteText">
+
+                            {% if is_favorite %}
+                                Favoridən çıxar
+                            {% else %}
+                                Favorilərə əlavə et
+                            {% endif %}
+
+                        </span>
+
                     </button>
+
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-fav">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="btn btn-fav"
+                    >
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                            />
+
                         </svg>
+
                         Favorilərə əlavə et
+
                     </a>
+
                 {% endif %}
 
-                <!-- SATICIYA YAZ -->
-                {% if user.is_authenticated %}
-                    {% if book.owner and user != book.owner %}
-                        <a href="#" class="btn btn-contact">Satıcıya yaz</a>
-                    {% endif %}
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-contact">Satıcıya yaz</a>
-                {% endif %}
 
-                <!-- REDAKTƏ ET -->
+                <!-- OWNER DEYİLSƏ SATICIYA YAZ -->
+
+
+{% if user.is_authenticated %}
+
+    {% if book.owner and user != book.owner %}
+
+        <a
+            href="{% url 'start_chat_with_user' book.owner.id %}"
+            class="btn btn-contact"
+        >
+            Satıcıya yaz
+        </a>
+
+    {% endif %}
+
+{% else %}
+
+    <a
+        href="{% url 'login' %}"
+        class="btn btn-contact"
+    >
+        Satıcıya yaz
+    </a>
+
+{% endif %}
+
+
+                <!-- OWNER-DİRSƏ REDAKTƏ ET -->
+
                 {% if user.is_authenticated and book.owner == user %}
-                    <a href="#" class="btn btn-edit">Kitabı redaktə et</a>
+
+                    <a
+                        href="{% url 'book_update' book.slug %}"
+                        class="btn btn-edit"
+                    >
+                        Kitabı redaktə et
+                    </a>
+
                 {% endif %}
 
             </div>
+
         </div>
+
     </div>
+
 </div>
+
 
 <!-- IMAGE MODAL -->
-<div class="image-modal" id="imageModal">
-    <button type="button" class="image-modal-close" id="imageModalClose">×</button>
-    <img id="modalImage" src="" alt="{{ book.title }}">
+
+<div
+    class="image-modal"
+    id="imageModal"
+>
+
+    <button
+        type="button"
+        class="image-modal-close"
+        id="imageModalClose"
+    >
+        ×
+    </button>
+
+    <img
+        id="modalImage"
+        src=""
+        alt="{{ book.title }}"
+    >
+
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const track=document.getElementById('sliderTrack');
-    const prevBtn=document.getElementById('prevBtn');
-    const nextBtn=document.getElementById('nextBtn');
-    const dots=document.querySelectorAll('.dot');
-    const images=document.querySelectorAll('.book-cover');
-    const modal=document.getElementById('imageModal');
-    const modalImage=document.getElementById('modalImage');
-    const modalClose=document.getElementById('imageModalClose');
 
-    /* SLIDER */
-    if(track && images.length>0) {
-        let currentIndex=0;
-        const totalImages=images.length;
+document.addEventListener(
+    'DOMContentLoaded',
+    function() {
 
-        function updateSlider(index) {
-            currentIndex=index;
-            track.style.transform=`translateX(-${currentIndex*100}%)`;
-            dots.forEach(function(dot,index) {
-                dot.classList.toggle('active',index===currentIndex);
-            });
-        }
+        const track =
+            document.getElementById('sliderTrack');
 
-        if(nextBtn) {
-            nextBtn.addEventListener('click',function() {
-                updateSlider((currentIndex+1)%totalImages);
-            });
-        }
+        const prevBtn =
+            document.getElementById('prevBtn');
 
-        if(prevBtn) {
-            prevBtn.addEventListener('click',function() {
-                updateSlider((currentIndex-1+totalImages)%totalImages);
-            });
-        }
+        const nextBtn =
+            document.getElementById('nextBtn');
 
-        dots.forEach(function(dot) {
-            dot.addEventListener('click',function() {
-                updateSlider(parseInt(this.dataset.index));
-            });
-        });
+        const dots =
+            document.querySelectorAll('.dot');
 
-        /* IMAGE MODAL */
-        images.forEach(function(image) {
-            image.addEventListener('click',function() {
-                if(!modal || !modalImage) return;
-                modalImage.src=this.dataset.imageUrl||this.src;
-                modal.classList.add('active');
-                document.body.style.overflow='hidden';
-            });
-        });
-    }
+        const images =
+            document.querySelectorAll('.book-cover');
 
-    function closeModal() {
-        if(!modal) return;
-        modal.classList.remove('active');
-        document.body.style.overflow='';
-    }
+        const modal =
+            document.getElementById('imageModal');
 
-    if(modalClose) modalClose.addEventListener('click',closeModal);
+        const modalImage =
+            document.getElementById('modalImage');
 
-    if(modal) {
-        modal.addEventListener('click',function(event) {
-            if(event.target===modal) closeModal();
-        });
-    }
+        const modalClose =
+            document.getElementById('imageModalClose');
 
-    document.addEventListener('keydown',function(event) {
-        if(event.key==='Escape') closeModal();
-    });
 
-    /* FAVORITE AJAX */
-    const favoriteBtn=document.getElementById('favoriteBtn');
+        /* SLIDER */
 
-    if(favoriteBtn) {
-        favoriteBtn.addEventListener('click',async function() {
-            const url=this.dataset.url;
+        if (track && images.length > 0) {
 
-            try {
-                const response=await fetch(url,{
-                    method:'POST',
-                    headers:{
-                        'X-CSRFToken':getCookie('csrftoken'),
-                        'X-Requested-With':'XMLHttpRequest'
+            let currentIndex = 0;
+
+            const totalImages = images.length;
+
+
+            function updateSlider(index) {
+
+                currentIndex = index;
+
+                track.style.transform =
+                    `translateX(-${currentIndex * 100}%)`;
+
+
+                dots.forEach(
+                    function(dot, index) {
+
+                        dot.classList.toggle(
+                            'active',
+                            index === currentIndex
+                        );
+
                     }
-                });
+                );
 
-                const data=await response.json();
-
-                if(!response.ok || !data.success) {
-                    console.error(data.error||'Favorite əməliyyatı uğursuz oldu.');
-                    return;
-                }
-
-                const icon=document.getElementById('favoriteIcon');
-                const text=document.getElementById('favoriteText');
-
-                if(data.is_favorite) {
-                    icon.setAttribute('fill','currentColor');
-                    text.textContent='Favoridən çıxar';
-                } else {
-                    icon.setAttribute('fill','none');
-                    text.textContent='Favorilərə əlavə et';
-                }
-            } catch(error) {
-                console.error('Favorite error:',error);
             }
-        });
-    }
 
-    function getCookie(name) {
-        let cookieValue=null;
 
-        if(document.cookie && document.cookie!=='') {
-            const cookies=document.cookie.split(';');
+            if (nextBtn) {
 
-            for(let cookie of cookies) {
-                cookie=cookie.trim();
+                nextBtn.addEventListener(
+                    'click',
+                    function() {
 
-                if(cookie.startsWith(name+'=')) {
-                    cookieValue=decodeURIComponent(cookie.substring(name.length+1));
-                    break;
-                }
+                        updateSlider(
+                            (currentIndex + 1) %
+                            totalImages
+                        );
+
+                    }
+                );
+
             }
+
+
+            if (prevBtn) {
+
+                prevBtn.addEventListener(
+                    'click',
+                    function() {
+
+                        updateSlider(
+                            (currentIndex - 1 + totalImages) %
+                            totalImages
+                        );
+
+                    }
+                );
+
+            }
+
+
+            dots.forEach(
+                function(dot) {
+
+                    dot.addEventListener(
+                        'click',
+                        function() {
+
+                            updateSlider(
+                                parseInt(
+                                    this.dataset.index
+                                )
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* IMAGE MODAL */
+
+            images.forEach(
+                function(image) {
+
+                    image.addEventListener(
+                        'click',
+                        function() {
+
+                            if (!modal || !modalImage) {
+                                return;
+                            }
+
+                            modalImage.src =
+                                this.dataset.imageUrl ||
+                                this.src;
+
+                            modal.classList.add('active');
+
+                            document.body.style.overflow =
+                                'hidden';
+
+                        }
+                    );
+
+                }
+            );
+
         }
 
-        return cookieValue;
+
+        /* MODAL CLOSE */
+
+        function closeModal() {
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove('active');
+
+            document.body.style.overflow = '';
+
+        }
+
+
+        if (modalClose) {
+
+            modalClose.addEventListener(
+                'click',
+                closeModal
+            );
+
+        }
+
+
+        if (modal) {
+
+            modal.addEventListener(
+                'click',
+                function(event) {
+
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+        }
+
+
+        document.addEventListener(
+            'keydown',
+            function(event) {
+
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+
+            }
+        );
+
+
+        /* FAVORITE AJAX */
+
+        const favoriteBtn =
+            document.getElementById('favoriteBtn');
+
+
+        if (favoriteBtn) {
+
+            favoriteBtn.addEventListener(
+                'click',
+                async function() {
+
+                    const url =
+                        this.dataset.url;
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                url,
+                                {
+                                    method:'POST',
+
+                                    headers:{
+                                        'X-CSRFToken':
+                                            getCookie('csrftoken'),
+
+                                        'X-Requested-With':
+                                            'XMLHttpRequest'
+                                    }
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (
+                            !response.ok ||
+                            !data.success
+                        ) {
+
+                            console.error(
+                                data.error ||
+                                'Favorite əməliyyatı uğursuz oldu.'
+                            );
+
+                            return;
+
+                        }
+
+
+                        const icon =
+                            document.getElementById(
+                                'favoriteIcon'
+                            );
+
+                        const text =
+                            document.getElementById(
+                                'favoriteText'
+                            );
+
+
+                        if (data.is_favorite) {
+
+                            icon.setAttribute(
+                                'fill',
+                                'currentColor'
+                            );
+
+                            text.textContent =
+                                'Favoridən çıxar';
+
+                        } else {
+
+                            icon.setAttribute(
+                                'fill',
+                                'none'
+                            );
+
+                            text.textContent =
+                                'Favorilərə əlavə et';
+
+                        }
+
+                    } catch(error) {
+
+                        console.error(
+                            'Favorite error:',
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* CSRF COOKIE */
+
+        function getCookie(name) {
+
+            let cookieValue = null;
+
+
+            if (
+                document.cookie &&
+                document.cookie !== ''
+            ) {
+
+                const cookies =
+                    document.cookie.split(';');
+
+
+                for (
+                    let cookie of cookies
+                ) {
+
+                    cookie =
+                        cookie.trim();
+
+
+                    if (
+                        cookie.startsWith(
+                            name + '='
+                        )
+                    ) {
+
+                        cookieValue =
+                            decodeURIComponent(
+                                cookie.substring(
+                                    name.length + 1
+                                )
+                            );
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            return cookieValue;
+
+        }
+
     }
-});
+);
+
 </script>
 
 </body>
