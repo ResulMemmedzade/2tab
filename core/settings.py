@@ -160,3 +160,5 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
