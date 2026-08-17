@@ -35,7 +35,8 @@ class Message(models.Model):
         ordering = ['created_at'] 
 
     def __str__(self):
-        return f"{self.sender.name}: {self.text[:20]}"
+        text = self.text or "[Şəkil]"
+        return f"{self.sender.name}: {text[:20]}"
 
 
 class PushSubscription(models.Model):
