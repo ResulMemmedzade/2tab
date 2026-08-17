@@ -1,12 +1,11 @@
-# accounts/backends.py
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
-User = get_user_model()
-
-
 class EmailModelBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
+        # get_user_model yalnız funksiya işə düşəndə çağırılır
+        User = get_user_model()
+        
         if username is None:
             username = kwargs.get(User.USERNAME_FIELD)
 
