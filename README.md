@@ -127,43 +127,4 @@ Layihə strukturu
 
 Layihə Django-nun modular strukturundan istifadə edir.
 
-2tab/
-│
-├── accounts/
-│   ├── models.py
-│   ├── views.py
-│   ├── forms.py
-│   ├── urls.py
-│   └── ...
-│
-├── books/
-│   ├── models.py
-│   ├── views.py
-│   ├── forms.py
-│   ├── urls.py
-│   └── ...
-│
-├── core/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── ...
-│
-├── templates/
-│   ├── base.html
-│   ├── accounts/
-│   ├── books/
-│   └── ...
-│
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
-├── media/
-│
-├── manage.py
-├── requirements.txt
-└── README.md
 
-Qeyd: Struktur layihənin hazırkı versiyasına uyğun olaraq dəyişə bilər.
